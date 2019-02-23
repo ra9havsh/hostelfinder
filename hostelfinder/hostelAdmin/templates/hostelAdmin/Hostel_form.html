@@ -1,0 +1,17 @@
+{% extends 'hostelAdmin/nav.html' %}
+{% block active-hostels %}class="nav-link active"{% endblock %}
+
+{% block body %}
+<div clas="row"></div>
+    <div class="container" style="margin-top: 80px;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'hostelAdmin/form-template.html' %}
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+{% endblock %}

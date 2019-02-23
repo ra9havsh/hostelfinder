@@ -1,0 +1,61 @@
+body{
+    background-color: #4FA83B !important;
+}
+
+.navbar{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: #0059B2;
+    color : white;
+}
+
+.logo{
+    text-align:center;
+    font-family: 'Monoton', cursive;
+}
+
+.navbar-expand-sm .navbar-nav{
+    background-color: #CC4204;
+    border: 2px solid #CC4204;
+    border-radius: 10px;
+    overflow:hidden;
+}
+
+.nav-link{
+    color: white;
+}
+
+.nav-link:hover{
+    background-color: rgba(214,97,19,0.5);
+    color: white;
+}
+
+.nav-link.active{
+    background-color: white;
+    color:  #B27104;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.table{
+    background-color: white !important;
+    border-radius: 15px;
+}
+th{
+    border-top:none !important;
+}
+
+a{
+ text-decoration: none;
+ color: white;
+}
+a:hover{
+ text-decoration: none;
+ color: white;
+}
+
+#addHostel{
+ background-color: #CC4204;
+ color: white;
+}
