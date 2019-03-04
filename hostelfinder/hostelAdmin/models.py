@@ -21,8 +21,8 @@ class Hostel(models.Model):
     hostel_phone =  models.CharField(max_length=100)
     hostel_mobile = models.CharField(max_length=100)
 
-    def get_absolute_url(self):
-        return reverse('hostelAdmin:hostel_details', kwargs={'pk':self.pk})
+    #def get_absolute_url(self):
+     #   return reverse('hostelAdmin:hostel_details', kwargs={'pk':self.pk})
 
     def __str__(self):
         return str(self.pk)+' - '+self.hostel_name + '('+  self.hostel_type +')'

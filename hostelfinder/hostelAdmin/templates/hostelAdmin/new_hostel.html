@@ -1,0 +1,21 @@
+{% extends 'hostelAdmin/nav.html' %}
+{% block active-hostels %}class="nav-link active"{% endblock %}
+{% load bootstrap4 %}
+
+{% block body %}
+<div class="row"></div>
+    <div class="container" style="margin-top: 60px; background-color:white; border-radius:4px; padding:20px;">
+        <form method="post" class="form" enctype="multipart/form-data" action="{% url 'hostelAdmin:hostel_add' %}">
+            {% csrf_token %}
+            {% bootstrap_form hostel_form %}
+            {% bootstrap_form geography_form %}
+            {% bootstrap_form room_form %}
+            {% bootstrap_form fee_form %}
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+{% endblock %}
