@@ -43,7 +43,7 @@ class Room(models.Model):
     room_price = models.CharField(max_length=250)
 
     def __str__(self):
-        return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' - room'+  str(self.pk) +')'
+        return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' - room'+  str(self.quantity)
 
 class Fee(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)

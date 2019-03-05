@@ -48,7 +48,7 @@ def formHostel(request):
             room.save()
             fee.save()
 
-            return redirect(reverse("hostelAdmin:hostels"))
+            return redirect("hostelAdmin:hostels")
 
     else:
         hostel_form = HostelForm()

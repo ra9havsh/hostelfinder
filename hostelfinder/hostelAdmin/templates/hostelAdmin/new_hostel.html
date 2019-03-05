@@ -4,16 +4,26 @@
 
 {% block body %}
 <div class="row"></div>
-    <div class="container" style="margin-top: 60px; background-color:white; border-radius:4px; padding:20px;">
+    <div class="container" style="margin-top: 60px; margin-bottom: 60px; background-color:white; border-radius:4px; padding:20px; display:flex;">
         <form method="post" class="form" enctype="multipart/form-data" action="{% url 'hostelAdmin:hostel_add' %}">
             {% csrf_token %}
             {% bootstrap_form hostel_form %}
+            <hr>
             {% bootstrap_form geography_form %}
-            {% bootstrap_form room_form %}
+            <hr>
             {% bootstrap_form fee_form %}
-                <div class="form-group">
+            <hr>
+            {% bootstrap_form room_form %}
+            <div class="form-group">
+                <label style="visibility:hidden">add button</label>
+                    <div class="col-sm-5">
+                        <button type="button" class="btn btn-info">Add</button>
+                    </div>
+            </div>
+            <hr>
+                <div class="form-group" style="clear:both; position:relative; left:45%; top:10px;">
                     <div class="col-sm-10 col-sm-offset-2">
-                        <button type="submit">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </div>
         </form>
