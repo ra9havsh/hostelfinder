@@ -84,5 +84,5 @@ form label{
 }
 
 form input, select{
- border: 1px solid rgba(214,97,19,0.5) ;
+ border: 1px solid rgba(214,97,19,0.5) !important;
 }
