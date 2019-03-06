@@ -17,8 +17,21 @@
             <div class="form-group">
                 <label style="visibility:hidden">add button</label>
                     <div class="col-sm-5">
-                        <button type="button" class="btn btn-info">Add</button>
+                        <button type="button" class="btn btn-info" id="add">Add</button>
                     </div>
+            </div>
+            <div id="room_error"></div>
+            <div id="room">
+                <table class="table">
+                    <thead>
+                        <th>Seater Type</th>
+                        <th>Quantity</th>
+                        <th>Room Price</th>
+                    </thead>
+                    <tbody id="room_table">
+
+                    </tbody>
+                </table>
             </div>
             <hr>
                 <div class="form-group" style="clear:both; position:relative; left:45%; top:10px;">
@@ -27,5 +40,65 @@
                     </div>
                 </div>
         </form>
+        <script>
+        var arr = [];
+
+        function createJSON(seater_type,quantity,room_price){
+            arr.push({
+                "seater_type" : seater_type,
+                "quantity" : quantity,
+                "room_price" : room_price,
+            });
+
+            return arr;
+        }
+
+        function createTable(data){
+                var room = '';
+                $.each(data, function(key,value){
+                 room += '<tr>';
+                 room += '<td>'+value.seater_type+'</td>';
+                 room += '<td>'+value.quantity+'</td>';
+                 room += '<td>'+value.room_price+
+                  '<button type="button" class="btn btn-danger"  style="margin-left:50px;"><i class="fas fa-trash-alt"></i></button></td>';
+                 room += '</tr>';
+                });
+            $('#room_table').html(room);
+        }
+
+            $('#add').click(function(){
+                seater_type = $('#seater_type').val();
+                quantity = $('#quantity').val();
+                room_price = $('#room_price').val();
+
+                if(valid()){
+                    var data = createJSON(seater_type,quantity,room_price);
+                    console.log(data);
+                    createTable(data);
+                    $('#room_price').val("");
+                }
+
+                function valid(){
+                    if(room_price == "" || seater_type == 0 || quantity == 0){
+                        $('#room_error').html("<p style='color:red;'>please! insert the values.....<p>");
+
+                        if(room_price=="")
+                        $('#room_error').append("<p style='color:red;'>* room price required</p>");
+
+                        if(seater_type==0)
+                        $('#room_error').append("<p style='color:red;'>* seater type required</p>");
+
+                        if(quantity==0)
+                        $('#room_error').append("<p style='color:red;'>* quantity required</p>");
+
+                        return false;
+                    }
+
+                    return true;
+                }
+            });
+
+
+        </script>
     </div>
 {% endblock %}

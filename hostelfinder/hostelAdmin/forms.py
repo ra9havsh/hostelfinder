@@ -28,6 +28,11 @@ class RoomForm(ModelForm):
     class Meta:
         model = Room
         fields = ['seater_type','quantity','room_price']
+        widgets = {
+            'seater_type': forms.NumberInput(attrs={'id': 'seater_type'}),
+            'quantity': forms.NumberInput(attrs={'id': 'quantity'}),
+            'room_price': forms.TextInput(attrs={'id': 'room_price'}),
+        }
 
 class FeeForm(ModelForm):
     class Meta:
