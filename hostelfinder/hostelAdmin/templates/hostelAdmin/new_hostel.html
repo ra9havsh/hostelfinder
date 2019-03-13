@@ -5,7 +5,7 @@
 {% block body %}
 <div class="row"></div>
     <div class="container" style="margin-top: 60px; margin-bottom: 60px; background-color:white; border-radius:4px; padding:20px; display:flex;">
-        <form method="post" class="form" enctype="multipart/form-data" action="{% url 'hostelAdmin:hostel_add' %}">
+        <form method="POST" class="form" enctype="multipart/form-data" action="{% url 'hostelAdmin:hostel_add' %}">
             {% csrf_token %}
             {% bootstrap_form hostel_form %}
             <hr>
@@ -33,6 +33,7 @@
                     </tbody>
                 </table>
             </div>
+            {% bootstrap_form roomDetail_form %}
             <hr>
                 <div class="form-group" style="clear:both; position:relative; left:45%; top:10px;">
                     <div class="col-sm-10 col-sm-offset-2">
@@ -55,26 +56,28 @@
 
         function createTable(data){
                 var room = '';
-                $.each(data, function(key,value){
-                 room += '<tr>';
-                 room += '<td>'+value.seater_type+'</td>';
-                 room += '<td>'+value.quantity+'</td>';
-                 room += '<td>'+value.room_price+
+                for(value in data){
+                 room += '<tr id="room'+ value +'">';
+                 room += '<td>'+data[value].seater_type+'</td>';
+                 room += '<td>'+data[value].quantity+'</td>';
+                 room += '<td>'+data[value].room_price+
                   '<button type="button" class="btn btn-danger"  style="margin-left:50px;"><i class="fas fa-trash-alt"></i></button></td>';
                  room += '</tr>';
-                });
+                }
             $('#room_table').html(room);
+            $('#room_json').val(JSON.stringify(arr));
         }
 
             $('#add').click(function(){
+
                 seater_type = $('#seater_type').val();
                 quantity = $('#quantity').val();
                 room_price = $('#room_price').val();
 
                 if(valid()){
-                    var data = createJSON(seater_type,quantity,room_price);
-                    console.log(data);
-                    createTable(data);
+                    createJSON(seater_type,quantity,room_price);
+                    console.log(arr);
+                    createTable(arr);
                     $('#room_price').val("");
                 }
 
@@ -98,7 +101,13 @@
                 }
             });
 
-
+            $('table').on('click', 'button', function(e){
+               id_value = $(this).closest('tr').attr('id');
+               index = parseInt(id_value[id_value.length-1]);
+               console.log(index);
+               delete arr[index];
+               createTable(arr);
+            })
         </script>
     </div>
 {% endblock %}

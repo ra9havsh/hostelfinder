@@ -6,7 +6,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from .models import Hostel, Location, Geography, Room, Fee
-from .forms import HostelForm, GeographyForm, RoomForm, FeeForm
+from .forms import HostelForm, GeographyForm, RoomForm, FeeForm, RoomDetailForm
+import json
 
 class HostelView(generic.TemplateView):
     template_name = 'hostelAdmin/hostels.html'
@@ -34,18 +35,19 @@ def formHostel(request):
         geography_form = GeographyForm(request.POST)
         room_form = RoomForm(request.POST)
         fee_form = FeeForm(request.POST)
+        roomDetail_form = RoomDetailForm(request.POST)
 
-        if hostel_form.is_valid() and geography_form.is_valid() and room_form.is_valid() and fee_form.is_valid():
+        if hostel_form.is_valid() and geography_form.is_valid() and fee_form.is_valid():
             hostel = hostel_form.save()
             geography = geography_form.save(False)
             room = room_form.save(False)
             fee = fee_form.save(False)
-
+            data = json.loads(roomDetail_form.data['room_detail'])
+            print(data[0]['room_price'])
             geography.hostel = hostel
             room.hostel =hostel
             fee.hostel = hostel
             geography.save()
-            room.save()
             fee.save()
 
             return redirect("hostelAdmin:hostels")
@@ -55,6 +57,7 @@ def formHostel(request):
         geography_form = GeographyForm()
         room_form = RoomForm()
         fee_form = FeeForm()
+        roomDetail_form = RoomDetailForm()
 
     args = {}
     #args.update(csrf(request))
@@ -62,6 +65,7 @@ def formHostel(request):
     args['geography_form'] = geography_form
     args['room_form'] = room_form
     args['fee_form'] = fee_form
+    args['roomDetail_form'] = RoomDetailForm()
 
     return render(request,'hostelAdmin/new_hostel.html',args)
 

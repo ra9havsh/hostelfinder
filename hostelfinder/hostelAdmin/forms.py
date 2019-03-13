@@ -25,6 +25,12 @@ class GeographyForm(ModelForm):
         }
 
 class RoomForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(RoomForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['room_price'].required = False
+
     class Meta:
         model = Room
         fields = ['seater_type','quantity','room_price']
@@ -38,6 +44,12 @@ class FeeForm(ModelForm):
     class Meta:
         model = Fee
         fields = ['admission_fee','refundable_fee','security_fee']
+
+
+class RoomDetailForm(forms.Form):
+        room_detail = forms.CharField(widget=forms.Textarea(attrs={'id': 'room_json'}))
+        class Meta:
+            fields = ['room_detail']
 
 
 
