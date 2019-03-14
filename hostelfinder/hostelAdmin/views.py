@@ -43,7 +43,13 @@ def formHostel(request):
             room = room_form.save(False)
             fee = fee_form.save(False)
             data = json.loads(roomDetail_form.data['room_detail'])
-            print(data[0]['room_price'])
+            for x in data:
+               r = Room()
+               r.hostel=hostel
+               r.seater_type=x['seater_type']
+               r.quantity=x['quantity']
+               r.room_price=x['room_price']
+               r.save()
             geography.hostel = hostel
             room.hostel =hostel
             fee.hostel = hostel
@@ -70,4 +76,4 @@ def formHostel(request):
     return render(request,'hostelAdmin/new_hostel.html',args)
 
 def customers(request):
-    pass
+    return render(request,'hostelAdmin/customers.html')
