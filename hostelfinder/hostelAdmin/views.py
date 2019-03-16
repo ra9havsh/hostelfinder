@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from .models import Hostel, Location, Geography, Room, Fee
-from .forms import HostelForm, GeographyForm, RoomForm, FeeForm, RoomDetailForm
+from .forms import HostelForm, GeographyForm, RoomForm, FeeForm, RoomDetailForm, ImageForm
 import json
 
 class HostelView(generic.TemplateView):
@@ -36,13 +36,15 @@ def formHostel(request):
         room_form = RoomForm(request.POST)
         fee_form = FeeForm(request.POST)
         roomDetail_form = RoomDetailForm(request.POST)
+        image_form = ImageForm(request.POST,request.FILES)
+        data = json.loads(roomDetail_form.data['room_detail'])
 
-        if hostel_form.is_valid() and geography_form.is_valid() and fee_form.is_valid():
+        if hostel_form.is_valid() and geography_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
             hostel = hostel_form.save()
             geography = geography_form.save(False)
             room = room_form.save(False)
             fee = fee_form.save(False)
-            data = json.loads(roomDetail_form.data['room_detail'])
+            image = image_form.save(False)
             for x in data:
                r = Room()
                r.hostel=hostel
@@ -53,8 +55,10 @@ def formHostel(request):
             geography.hostel = hostel
             room.hostel =hostel
             fee.hostel = hostel
+            image.hostel = hostel
             geography.save()
             fee.save()
+            image.save()
 
             return redirect("hostelAdmin:hostels")
 
@@ -64,6 +68,7 @@ def formHostel(request):
         room_form = RoomForm()
         fee_form = FeeForm()
         roomDetail_form = RoomDetailForm()
+        image_form = ImageForm()
 
     args = {}
     #args.update(csrf(request))
@@ -72,6 +77,7 @@ def formHostel(request):
     args['room_form'] = room_form
     args['fee_form'] = fee_form
     args['roomDetail_form'] = RoomDetailForm()
+    args['image_form'] = ImageForm()
 
     return render(request,'hostelAdmin/new_hostel.html',args)
 

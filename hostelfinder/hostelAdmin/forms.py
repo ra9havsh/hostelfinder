@@ -45,11 +45,17 @@ class FeeForm(ModelForm):
         model = Fee
         fields = ['admission_fee','refundable_fee','security_fee']
 
+class ImageForm(ModelForm):
+    class Meta:
+        model = Image
+        fields = ['profile_image','image1','image2','image3','image4','image5']
+
 
 class RoomDetailForm(forms.Form):
-        room_detail = forms.CharField(widget=forms.Textarea(attrs={'id': 'room_json'}))
+        room_detail = forms.CharField(label='',widget=forms.Textarea(attrs={'id': 'room_json','style':'display:none'}))
         class Meta:
             fields = ['room_detail']
+
 
 
 
