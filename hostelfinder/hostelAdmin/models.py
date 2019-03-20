@@ -9,7 +9,7 @@ class Location(models.Model):
     country = models.CharField(max_length=250, default="Nepal")
 
     def __str__(self):
-        return str(self.pk)+' : '+self.city + ' - '+self.street
+        return self.city + ' - ' + self.street
 
 class Hostel(models.Model):
     HOSTEL_CHOICE = {
@@ -35,6 +35,8 @@ class Geography(models.Model):
     longitude = models.DecimalField(max_digits=11,decimal_places=8, default=0.00000)
     additional = models.CharField(max_length=250)
 
+    def __str__(self):
+        return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' geo'
 
 class Room(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
@@ -56,7 +58,7 @@ class Fee(models.Model):
 
 class Image(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
-    profile_image = models.FileField()
+    profile_image = models.FileField(null=True,blank=True)
     image1 = models.FileField(null=True,blank=True)
     image2 = models.FileField(null=True,blank=True)
     image3 = models.FileField(null=True,blank=True)

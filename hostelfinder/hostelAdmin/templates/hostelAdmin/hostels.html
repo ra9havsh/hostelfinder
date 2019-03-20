@@ -37,7 +37,9 @@
                         <a href="{% url 'hostelAdmin:hostel_details' hostel.pk %}">
                             <button type="button" class="btn btn-info"><i class="fas fa-info"></i> More Details</button>
                         </a>
-                        <button type="button" class="btn btn-danger"><i class="far fa-edit"></i> Edit</button>
+                        <a href="{% url 'hostelAdmin:hostel_edit' hostel.pk %}">
+                            <button type="button" class="btn btn-danger"><i class="far fa-edit"></i> Edit</button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
