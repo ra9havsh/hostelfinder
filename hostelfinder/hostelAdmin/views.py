@@ -29,12 +29,12 @@ def HostelDetailView(request, pk):
 def HostelEditView(request, pk):
     if request.method == "POST":
         hostel_form = HostelForm(request.POST,instance=Hostel.objects.get(id=pk))
-        geography_form = GeographyForm(request.POST,instance=Geography.objects.get(id=pk))
+        geography_form = GeographyForm(request.POST,instance=Geography.objects.get(hostel_id=pk))
         room_form = RoomForm(request.POST)
-        fee_form = FeeForm(request.POST,instance=Fee.objects.get(id=pk))
+        fee_form = FeeForm(request.POST,instance=Fee.objects.get(hostel_id=pk))
         roomDetail_form = RoomDetailForm(request.POST)
-        image_form = ImageForm(request.POST,request.FILES,instance=Image.objects.get(id=pk))
-        data = json.loads(roomDetail_form.data['room_detail'])
+        image_form = ImageForm(request.POST,request.FILES,instance=Image.objects.get(hostel_id=pk))
+        data = roomDetail_form.data['room_detail']
 
         if hostel_form.is_valid() and geography_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
             hostel = hostel_form.save()
@@ -42,13 +42,20 @@ def HostelEditView(request, pk):
             room = room_form.save(False)
             fee = fee_form.save(False)
             image = image_form.save(False)
-            for x in data:
-               r = Room()
-               r.hostel=hostel
-               r.seater_type=x['seater_type']
-               r.quantity=x['quantity']
-               r.room_price=x['room_price']
-               r.save()
+
+            Room.objects.filter(hostel_id=pk).delete()
+
+            if data:
+                data = json.loads(roomDetail_form.data['room_detail'])
+
+                for x in data:
+                    r = Room()
+                    r.hostel = hostel
+                    r.seater_type = x['seater_type']
+                    r.quantity = x['quantity']
+                    r.room_price = x['room_price']
+                    r.save()
+
             geography.hostel = hostel
             room.hostel =hostel
             fee.hostel = hostel
@@ -57,14 +64,26 @@ def HostelEditView(request, pk):
             fee.save()
             image.save()
 
-            return redirect("hostelAdmin:hostel_details/"+pk)
+            return redirect("hostelAdmin:hostel_details",pk=pk)
 
     else:
         hostel_form = HostelForm(instance=Hostel.objects.get(id=pk))
         geography_form = GeographyForm(instance=Geography.objects.get(hostel_id=pk))
         room_form = RoomForm()
+
+        #for fill the list in the room_detail field in RoomDetailForm
+        room = list(Room.objects.filter(hostel_id=pk))
+        room_detail = []
+
+        for x in room:
+            room_detail.append({
+                'seater_type':x.seater_type,
+                'quantity':x.seater_type,
+                'room_price':x.room_price
+            })
+
+        roomDetail_form = RoomDetailForm(initial={'room_detail': json.dumps(room_detail)})
         fee_form = FeeForm(instance=Fee.objects.get(hostel_id=pk))
-        roomDetail_form = RoomDetailForm()
         image_form = ImageForm(instance=Image.objects.get(hostel_id=pk))
 
     args = {}
@@ -92,7 +111,7 @@ def formHostel(request):
         fee_form = FeeForm(request.POST)
         image_form = ImageForm(request.POST,request.FILES)
         roomDetail_form = RoomDetailForm(request.POST)
-        #data = json.loads(roomDetail_form.data['room_detail'])
+        data = roomDetail_form.data['room_detail']
 
         if hostel_form.is_valid() and geography_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
             hostel = hostel_form.save()
@@ -101,13 +120,17 @@ def formHostel(request):
             fee = fee_form.save(False)
             image = image_form.save(False)
 
-            # for x in data:
-            #    r = Room()
-            #    r.hostel=hostel
-            #    r.seater_type=x['seater_type']
-            #    r.quantity=x['quantity']
-            #    r.room_price=x['room_price']
-            #    r.save()
+            if data:
+                data = json.loads(roomDetail_form.data['room_detail'])
+                print(data)
+
+                for x in data:
+                   r = Room()
+                   r.hostel=hostel
+                   r.seater_type=x['seater_type']
+                   r.quantity=x['quantity']
+                   r.room_price=x['room_price']
+                   r.save()
 
             geography.hostel = hostel
             room.hostel =hostel

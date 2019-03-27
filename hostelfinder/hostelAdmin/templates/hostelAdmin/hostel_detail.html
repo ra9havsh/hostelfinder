@@ -44,8 +44,12 @@
 
         <h2>image detail</h2>
         {% for image in hostel.image_set.all %}
-            <p><label>profile image</label><img src="/media/{{ image.profile_image }}" height="200px" width="300px"/></p>
-            <p><label>image 1</label><img src="/media/{{ image.image1 }}" height="200px" width="200px"/></p>
+            <p style="float:left;"><label>profile image</label><img src="/media/{{ image.profile_image }}" height="200px" width="200px"/></p>
+             <p><label>image 1</label><img src="/media/{{ image.image1 }}" height="200px" width="200px" alt="no image"/></p>
+             <p><label>image 2</label><img src="/media/{{ image.image2 }}" height="200px" width="200px" alt="no image"/></p>
+             <p><label>image 3</label><img src="/media/{{ image.image3 }}" height="200px" width="200px" alt="no image"/></p>
+             <p><label>image 4</label><img src="/media/{{ image.image4 }}" height="200px" width="200px" alt="no image"/></p>
+             <p><label>image 5</label><img src="/media/{{ image.image5 }}" height="200px" width="200px" alt="no image"/></p>
         {% endfor %}
 
         <a href="{% url 'hostelAdmin:hostel_edit' hostel.pk %}">

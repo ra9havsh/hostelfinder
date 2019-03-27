@@ -52,7 +52,7 @@ class ImageForm(ModelForm):
 
 
 class RoomDetailForm(forms.Form):
-        room_detail = forms.CharField(label='',required=False,widget=forms.Textarea(attrs={'id': 'room_json','style':'display:none'}))
+        room_detail = forms.CharField(label='',required=False,widget=forms.Textarea(attrs={'id': 'room_json'}))
         class Meta:
             fields = ['room_detail']
 
