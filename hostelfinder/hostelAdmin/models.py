@@ -20,6 +20,10 @@ class Hostel(models.Model):
     hostel_type =  models.CharField(max_length=20, choices=HOSTEL_CHOICE)
     hostel_phone =  models.CharField(max_length=100)
     hostel_mobile = models.CharField(max_length=100)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
+    latitude = models.DecimalField(max_digits=10,decimal_places=8, default=0.000000)
+    longitude = models.DecimalField(max_digits=11,decimal_places=8, default=0.00000)
+    additional = models.CharField(max_length=250)
 
     #def get_absolute_url(self):
      #   return reverse('hostelAdmin:hostel_details', kwargs={'pk':self.pk})
@@ -27,16 +31,6 @@ class Hostel(models.Model):
     def __str__(self):
         return str(self.pk)+' - '+self.hostel_name + '('+  self.hostel_type +')'
 
-
-class Geography(models.Model):
-    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE, default=1)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
-    latitude = models.DecimalField(max_digits=10,decimal_places=8, default=0.000000)
-    longitude = models.DecimalField(max_digits=11,decimal_places=8, default=0.00000)
-    additional = models.CharField(max_length=250)
-
-    def __str__(self):
-        return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' geo'
 
 class Room(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)

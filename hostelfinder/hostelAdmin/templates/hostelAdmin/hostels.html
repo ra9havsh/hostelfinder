@@ -26,13 +26,11 @@
                     <td>{{ hostel.hostel_name }}</td>
                     <td>{{ hostel.hostel_type }}</td>
                      <td>{{ hostel.hostel_phone }} </br> {{ hostel.hostel_mobile }}</td>
-                     {% for g in geo %}
                        {% for l in locations %}
-                            {% if g.hostel.pk == hostel.pk and g.location.pk == l.pk %}
-                                <td>{{ l.street }}, {{ l.city }} </br> {{ g.additional }}</td>
+                            {% if hostel.location.pk == l.pk %}
+                                <td>{{ l.street }}, {{ l.city }} </br> {{ hostel.additional }}</td>
                             {% endif %}
                         {% endfor %}
-                     {% endfor %}
                     <td>
                         <a href="{% url 'hostelAdmin:hostel_details' hostel.pk %}">
                             <button type="button" class="btn btn-info"><i class="fas fa-info"></i> More Details</button>
@@ -45,5 +43,16 @@
             {% endfor %}
             </tbody>
         </table>
+         <ul class="pagination">
+             {% if hostels.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ hostels.previous_page_number }}">Previous</a></li>
+             {% endif %}
+            <li class="page-item"><a class="page-link" href="#"> Page {{ hostels.number }} of {{ hostels.paginator.num_pages }}.</a></li>
+            {% if hostels.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ hostels.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ hostels.paginator.num_pages }}">Last &raquo;</a></li>
+            {% endif %}
+          </ul>
     </div>
 {% endblock %}

@@ -28,9 +28,10 @@
         <p>{{ hostel.hostel_mobile }}</p>
 
         <h2>location</h2>
-        {% for geo in hostel.geography_set.all %}
-            <p>{{ geo.location }} - {{ geo.latitude }} - {{ geo.longitude }} - {{ geo.additional }}</p>
-        {% endfor %}
+        <p>{{ hostel.location }}</p>
+        <p>{{ hostel.latitude }}</p>
+        <p>{{ hostel.longitude }}</p>
+        <p>{{ hostel.additional }}</p>
 
         <h2>room detail</h2>
         {% for room in hostel.room_set.all %}
