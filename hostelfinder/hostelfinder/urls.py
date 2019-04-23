@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hostelAdmin/', include('hostelAdmin.urls')),
+    url(r'^hostelfinder/', include('webpage.urls')),
 ]
 
 if settings.DEBUG:
