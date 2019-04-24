@@ -14,10 +14,16 @@
 </head>
     <body>
         <nav class="navbar navbar-expand-sm">
-            <span class="navbar-brand logo" href="#">HOSTEL FINDER</span>
-            <span class="logger">
+            <div>
+                <span class="navbar-brand logo" href="#">HOSTEL FINDER</span>
+            </div>
+            <div class="logger">
+                <div class="searchbar">
+                  <input class="search_input" type="text" name="" placeholder="Search...">
+                  <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                </div>
                 <a href="#" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp; <a href="#" style="font-weight:bold;">Log In</a>
-            </span>
+            </div>
         </nav>
         {% block body %}
         {% endblock %}
