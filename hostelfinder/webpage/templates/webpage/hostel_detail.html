@@ -1,6 +1,90 @@
 {% extends 'webpage/nav.html' %}
 {% block active-hostels %}class="nav-link active"{% endblock %}
-
+{% load static %}
 {% block body %}
-<div clas="row">hgchgchgc</div>
+<div class="container-fluid top-ban">
+    <form method="post" action="#" class="col-sm-4 search">
+        <div class="location">
+            <div class="form-group">
+                <label for="district">District:</label>
+                <select class="form-control" id="district">
+                    <option>any</option>
+                    <option>kathmandu</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city">
+                    <option>any</option>
+                    <option>Maitidevi</option>
+                    <option>Maitidevi</option>
+                    <option>Maitidevi</option>
+                    <option>Maitidevi</option>
+                </select>
+            </div>
+        </div>
+        <div class="hostel-detail">
+            <div class="form-group">
+                <label for="hostel-type">Hostel type:</label>
+                <select class="form-control" id="hostel-type">
+                    <option>Girls</option>
+                    <option>Boys</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="seater">Seater:</label>
+                <input type="number" class="form-control" id="seater">
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" class="form-control" id="quantity">
+            </div>
+        </div>
+        <div class="price-range">
+            <div class="form-group" style="width:65%;">
+                <label for="range">Price Range:</label>
+                <div>
+                    <input type="number" class="form-control" id="range">
+                    <span style="float:left;"> &nbsp;to&nbsp; </span>
+                    <input type="number" class="form-control">
+                </div>
+            </div>
+            <div class="search-btn">
+                <button type="button" class="btn btn-success">SEARCH</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="demo" class="col-sm-7 carousel slide" data-ride="carousel">
+
+      <!-- Indicators -->
+      <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+        <li data-target="#demo" data-slide-to="2"></li>
+      </ul>
+
+      <!-- The slideshow -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'webpage/images/chicago.jpg' %}" alt="Chicago">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'webpage/images/ny.jpg' %}" alt="New York">
+        </div>
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+</div>
+<hr>
 {% endblock %}
