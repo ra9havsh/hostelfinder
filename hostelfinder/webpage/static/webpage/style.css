@@ -145,6 +145,7 @@
 }
 
 .mid-ban{
+    display: inline-block;
     padding-top:20px;
 }
 .mid-ban .header{
@@ -213,13 +214,37 @@
 }
 
 .rating-star{
-    position:absolute;
-    right: 140px;
-    bottom: 35px;
+    position: relative;
+    right: 0;
+    top: 30px;
     display:inline-flex;
     font-size:0.8em;
 }
 
 .checked {
   color: orange;
+}
+
+.foot-ban{
+    background-color: #0059B2;
+    margin-top: 20px;
+    color : white;
+    padding:10px;
+}
+
+.foot-ban hr{
+    background: white;
+}
+
+.foot-ban ul{
+    float:left;
+    margin-left: 100px;
+}
+
+.foot-ban a{
+    color:white;
+    text-decoration: underline;
+}
+.foot-ban a:hover{
+    color:white;
 }
