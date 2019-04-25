@@ -80,8 +80,9 @@
     color : white;
     padding: 15px 10px 15px 10px;
     border-radius: 5px;
-    margin-right:20px;
+    margin-right:10px;
     margin-left: 30px;
+    margin-bottom:10px;
     overflow: hidden;
 }
 
@@ -133,12 +134,92 @@
       height: 100%;
 }
 
-hr{
+.seperator{
   border:none;
   clear: both;
   position:relative;
-  top:20px;
+  top:10px;
   width: 96%;
   background-color:rgba(0,0,0,.1);
   height: 5px !important;;
+}
+
+.mid-ban{
+    padding-top:20px;
+}
+.mid-ban .header{
+    display: inline-block;
+}
+.mid-ban .header h4{
+    float:left;
+    color: #0059B2;
+    text-transform: uppercase;
+}
+.mid-ban .header p{
+    float:left;
+    font-size: 1.2em;
+}
+.mid-ban h6{
+    position:relative;
+    top: 7px;
+    left:2px;
+    float:left;
+    font-variant: small-caps;
+}
+
+.hostel-box{
+    float:left;
+    height: 200px;
+    padding:10px;
+}
+.hostel-box-content{
+    display: flex;
+    background: #f3f5f787;
+    padding:10px;
+    height:100%;
+    width:100%;
+}
+
+.hostel-box-content:hover{
+    background:#f3f5f7f7;
+    border:1px solid #0059B287;
+}
+
+.hostel-box .image-box{
+    background:white;
+    width: 50%;
+    height: 100%;
+}
+.hostel-box .image-box img{
+    width:100%;
+    height:100%;
+}
+.hostel-box .hostel-content{
+    width: 50%;
+    height: 100%;
+    padding-left:2px;
+}
+
+.hostel-box h4{
+    text-transform:uppercase;
+}
+
+.hostel-box button{
+    position:absolute;
+    right: 25px;
+    bottom: 30px;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.rating-star{
+    position:absolute;
+    right: 140px;
+    bottom: 35px;
+    display:inline-flex;
+    font-size:0.8em;
+}
+
+.checked {
+  color: orange;
 }

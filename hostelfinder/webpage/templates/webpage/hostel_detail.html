@@ -86,5 +86,36 @@
       </a>
     </div>
 </div>
-<hr>
+<hr class="seperator">
+<div class="container-fluid mid-ban">
+    <div class="header">
+        <h4>Recommended</h4>
+        <p>|</p>
+        <h6>Popular Hostels</h6>
+    </div>
+    <div class="recommends">
+        {% for x in "aaaaaaaaaaaa" %}
+        <div class="col-sm-4 hostel-box">
+            <div class="hostel-box-content">
+                <div class="image-box">
+                    <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
+                </div>
+                <div class="hostel-content">
+                    <h4>Laxmi Girls hostel</h4>
+                    <h6>dillibazar, kathmandu</h6>
+                    <hr>
+                    <div class="rating-star">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                    <button type="button" class="btn btn-success">BOOK NOW</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
