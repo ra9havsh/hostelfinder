@@ -1,0 +1,88 @@
+{% extends 'webpage/nav.html' %}
+{% block active-hostels %}class="nav-link active"{% endblock %}
+{% load static %}
+
+{% block head %}
+    <style>
+        body{
+            background: #f1f1f1 !important;
+        }
+
+        .container{
+            background: white;
+            margin-top: 20px;
+        }
+
+        .hostel_owner, .hostel_seeker{
+            height: 580px;
+        }
+
+        .hostel_owner{
+            border-right: 7px solid #020b1517;
+        }
+
+        .hostel_owner .title{
+            float: left;
+            font-variant: small-caps;
+            font-size: 2em;
+            font-weight: bold;
+            color: #7CCC49;
+        }
+
+        .hostel_owner h2{
+            text-transform: uppercase;
+            font-size: 3rem !important;
+            color: #3E9905 !important;
+        }
+
+        .hostel_seeker .title{
+            float:right;
+            text-align: right;
+            font-variant: small-caps;
+            font-size: 2em;
+            font-weight: bold;
+            color: #5E42FA;
+        }
+
+        .hostel_seeker h2{
+            text-transform: uppercase;
+            font-size: 3rem !important;
+            color: #2F42CC !important;
+        }
+
+        .hostel_owner p, .hostel_seeker p{
+            clear: both;
+            text-align: justify;
+            color: #636369;
+        }
+
+        hr{
+            clear: both;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 hostel_owner">
+            <span class="title">Are you <h2>Hostel Owner???</h2></span>
+            <hr>
+            <p>Then we welcome you to our web application, providing you a platform
+            to post your hostel on this site. Hostel seekers may find your hostel
+            suitable as relative to their interest and may contact you. So, please
+            grab this opportunity, we are here for you.</p>
+        </div>
+        <div class="col-sm-6 hostel_seeker">
+              <span class="title">Are you <h2>Seeking Hostel???</h2></span>
+            <hr>
+            <p  dir="rtl"><bdi>Then we welcome you to our web application, providing you a platform
+            to find a hostel on this site. You may find your hostel
+            suitable as relative to your interest and you may contact the hostel owner. So, please
+                grab this opportunity, we are here for you.</bdi></p>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

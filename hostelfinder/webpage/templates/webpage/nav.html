@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>HostelFinder Admin</title>
     {% load staticfiles %}
+    {% block head %}
+    {% endblock %}
     <link rel="stylesheet" type="text/css" href="{% static 'webpage/style.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
@@ -23,10 +25,12 @@
                   <input class="search_input" type="text" name="" placeholder="Search...">
                   <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                 </div>
-                <a href="#" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp; <a href="#" style="font-weight:bold;">Log In</a>
+                <a href="{% url 'webpage:register' %}" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp; <a href="#" style="font-weight:bold;">Log In</a>
             </div>
         </nav>
         {% block body %}
         {% endblock %}
+
+        {% include 'webpage/foot_ban.html' %}
     </body>
 </html>
