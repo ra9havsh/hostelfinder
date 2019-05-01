@@ -60,6 +60,46 @@
             clear: both;
         }
 
+        .button{
+            text-align: center;
+        }
+
+        .register_btn{
+            display: inline-block;
+            width: 50%;
+            font-weight: bold;
+            border-radius: 5px;
+            Padding: 10px 5px;
+            cursor: pointer;
+        }
+
+        .hostel_owner .register_btn{
+            border: 2px solid #7CCC49;
+            color: #3E9905;
+        }
+
+        .hostel_seeker .register_btn{
+            border: 2px solid #5E42FA;
+            color: #2F42CC;
+        }
+
+        .hostel_owner .register_btn:hover, .hostel_owner .image-hostel{
+            background: #7CCC49;
+            color: white;
+        }
+
+        .hostel_seeker .register_btn:hover, .hostel_seeker .image-hostel{
+            background: #5E42FA;
+            color: white;
+        }
+
+        .image-hostel{
+            width: 100%;
+            height: 250px;
+            position: absolute;
+            bottom: 0;
+            left:0;
+        }
     </style>
 {% endblock %}
 
@@ -73,14 +113,27 @@
             to post your hostel on this site. Hostel seekers may find your hostel
             suitable as relative to their interest and may contact you. So, please
             grab this opportunity, we are here for you.</p>
+
+            <div class="container button">
+                <a href="#">
+                    <div class="register_btn">Register As Hostel Owner</div>
+                </a>
+            </div>
+            <div class="image-hostel">jj</div>
         </div>
-        <div class="col-sm-6 hostel_seeker">
+        <div class="col-sm-6  hostel_seeker">
               <span class="title">Are you <h2>Seeking Hostel???</h2></span>
             <hr>
             <p  dir="rtl"><bdi>Then we welcome you to our web application, providing you a platform
             to find a hostel on this site. You may find your hostel
             suitable as relative to your interest and you may contact the hostel owner. So, please
                 grab this opportunity, we are here for you.</bdi></p>
+            <div class="container button">
+                <a href="#">
+                    <div class="register_btn">Register As Hostel Seeker</div>
+                </a>
+            </div>
+            <div class="image-hostel">jj</div>
         </div>
         </div>
     </div>
