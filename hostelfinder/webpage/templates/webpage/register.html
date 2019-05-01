@@ -99,6 +99,12 @@
             position: absolute;
             bottom: 0;
             left:0;
+            background: url(img_navsprites.gif) 0 0;
+        }
+
+        .image-hostel img{
+            width: 100%;
+            height: 100%;
         }
     </style>
 {% endblock %}
@@ -119,7 +125,9 @@
                     <div class="register_btn">Register As Hostel Owner</div>
                 </a>
             </div>
-            <div class="image-hostel">jj</div>
+            <div class="image-hostel">
+                 <img src="{% static 'webpage/images/silhouette1.png' %}">
+            </div>
         </div>
         <div class="col-sm-6  hostel_seeker">
               <span class="title">Are you <h2>Seeking Hostel???</h2></span>
@@ -133,7 +141,9 @@
                     <div class="register_btn">Register As Hostel Seeker</div>
                 </a>
             </div>
-            <div class="image-hostel">jj</div>
+            <div class="image-hostel">
+                <img src="{% static 'webpage/images/silhouette2.png' %}">
+            </div>
         </div>
         </div>
     </div>
