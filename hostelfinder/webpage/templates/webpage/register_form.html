@@ -13,25 +13,43 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="container">
         <div class="row ">
             <div class="col-sm-4 py-5 bg-primary text-white text-center ">
                 <div class=" ">
                     <div class="card-body">
                         <img src="http://www.ansonika.com/mavia/img/registration_bg.svg" style="width:30%">
-                        <h2 class="py-3">Registration</h2>
-                        <p>Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque
-                            usu, facete detracto patrioque an per, lucilius pertinacia eu vel.
-                        </p>
+                        <h2 class="pt-3">Register As</h2>
+                        <h1>
+                            {% if user_type == 'Student' %}
+                                {{ user_type}}
+                            {% else %}
+                                Hostel Owner
+                            {% endif %}
+                        </h1>
+                        {% if user_type == 'Student' %}
+                            <p>
+                                We welcome you to our web application, providing you a platform to find a hostel on this site.
+                                You may find your hostel suitable as relative to your interest and you may contact the hostel owner.
+                                So, please grab this opportunity, we are here for you.
+                            </p>
+                        {% else %}
+                            <p>
+                                We welcome you to our web application, providing you a platform to post your hostel on this site.
+                                Hostel seekers may find your hostel suitable as relative to their interest and may contact you.
+                                So, please grab this opportunity, we are here for you.
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="col-sm-8 py-3 border">
                 <h4 class="pb-4">Please fill with your details</h4>
-                <form>
-                    {% bootstrap_form form %}
-
+                <form class="register">
+                    {% bootstrap_form form.registration_form %}
+                    {% if user_type == 'Student' %}
+                        {% bootstrap_form form.student_form %}
+                    {% endif %}
                     <div class="form-row m-auto" style="clear:both;">
                         <button type="button" class="btn btn-danger">Submit</button>
                     </div>

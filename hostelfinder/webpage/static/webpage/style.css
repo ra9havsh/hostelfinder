@@ -250,12 +250,12 @@
     color:white;
 }
 
-/* for form */
-.form-group:nth-child(3){
+/* for register form */
+.register .form-group:nth-child(3){
   width:90%;
 }
 
-.form-group{
+.register .form-group{
     float:left;
     margin-right: 50px;
 }
