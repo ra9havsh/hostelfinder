@@ -9,6 +9,7 @@
 .logo{
     text-align:center;
     font-family: 'Monoton', cursive;
+    cursor: pointer;
 }
 
 .navbar .logger{
@@ -247,4 +248,14 @@
 }
 .foot-ban a:hover{
     color:white;
+}
+
+/* for form */
+.form-group:nth-child(3){
+  width:90%;
+}
+
+.form-group{
+    float:left;
+    margin-right: 50px;
 }
