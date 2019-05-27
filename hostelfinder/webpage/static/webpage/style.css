@@ -75,7 +75,6 @@
 }
 
 .search{
-    float:left;
     height:auto;
     background-color: #105387;
     color : white;
@@ -123,7 +122,6 @@
 }
 
 .carousel{
-    float:left;
     height: 285px;
 }
 

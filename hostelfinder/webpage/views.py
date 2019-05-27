@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import RegistrationForm, StudentForm
+from .forms import RegistrationForm, StudentForm, LogInForm
 #from hostelAdmin.models import Hostel, Location, Room, Fee, Image
 
 def homepage(request):
@@ -14,3 +14,7 @@ def register_form_view(request,user_type):
     form['student_form'] = StudentForm()
     args = {'user_type' : user_type, 'form':form }
     return render(request,'webpage/register_form.html',args)
+
+def login_form_view(request):
+    form =  LogInForm()
+    return render(request,'webpage/login_form.html', {'form':form} )

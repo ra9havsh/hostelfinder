@@ -1,0 +1,68 @@
+{% extends 'webpage/nav.html' %}
+{% block active-hostels %}class="nav-link active"{% endblock %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block head %}
+    <style>
+        .container{
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .student label{
+            font-size: 1.2em;
+        }
+        .student input, select{
+            width: 100% !important;
+        }
+        .info{
+            background: url('{% static 'webpage/images/texture.jpg' %}');
+            background-size: cover;
+            text-align: center;
+        }
+
+        .info p{
+            font-size: 5em;
+            color: white;
+            text-align:center;
+            text-transform: uppercase;
+        }
+
+        .info i{
+            font-size: 8em;
+            color: white;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row ">
+            <div class="col-sm-12 col-md-7 col-lg-8 info">
+                <p>Choose</p>
+                <i class="fas fa-home"></i>
+                <p>Your Stay</p>
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <legend>
+                            <center>
+                                <h4>Log In</h4>
+                            </center>
+                        </legend>
+                    </div>
+                    <div class="card-body">
+                        <form class="student">
+                            {% bootstrap_form form %}
+                            <div class="form-group">
+                                <center><button type="button" class="btn btn-danger">Submit</button></center>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

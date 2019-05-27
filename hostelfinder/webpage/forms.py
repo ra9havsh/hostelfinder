@@ -24,3 +24,15 @@ class StudentForm(ModelForm):
             'institute': forms.TextInput(attrs={'style': 'width:300px;'}),
             'date_of_birth': forms.DateInput(format="%m/%d/%Y",attrs={'style': 'width:145px;'})
         }
+
+class LogInForm(forms.Form):
+    USER_TYPE_CHOICE = {
+        ('X',"----Select---"),
+        ('O', 'Hostel_Owner'),
+        ('S', 'Student'),
+    }
+    username = forms.CharField(widget=forms.TextInput(attrs={'style': 'width:300px;'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}))
+    user_type = forms.ChoiceField(widget=forms.Select(attrs={'style': 'width:300px;'}),choices=USER_TYPE_CHOICE)
+    class Meta:
+        fields = ['username','password','user_type']
