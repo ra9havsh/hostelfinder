@@ -9,6 +9,15 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        {% if user_type == 'Student' %}
+            .register .form-group:nth-last-of-type(9){
+              width:90%;
+            }
+            .register .form-group:nth-last-of-type(6){
+              width:auto !important;
+            }
+        {% endif %}
+
     </style>
 {% endblock %}
 
@@ -45,13 +54,14 @@
             </div>
             <div class="col-sm-8 py-3 border">
                 <h4 class="pb-4">Please fill with your details</h4>
-                <form class="register">
+                <form class="register" method="post" action="{% url 'webpage:register_form' user_type %}">
+                    {% csrf_token %}
                     {% bootstrap_form form.registration_form %}
                     {% if user_type == 'Student' %}
                         {% bootstrap_form form.student_form %}
                     {% endif %}
                     <div class="form-row m-auto" style="clear:both;">
-                        <button type="button" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger">Submit</button>
                     </div>
                 </form>
             </div>

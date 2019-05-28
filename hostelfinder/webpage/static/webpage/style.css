@@ -75,6 +75,7 @@
 }
 
 .search{
+    float: left;
     height:auto;
     background-color: #105387;
     color : white;
@@ -249,7 +250,7 @@
 }
 
 /* for register form */
-.register .form-group:nth-child(3){
+.register .form-group:nth-last-of-type(6){
   width:90%;
 }
 
