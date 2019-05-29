@@ -54,10 +54,11 @@
                         </legend>
                     </div>
                     <div class="card-body">
-                        <form class="student">
+                        <form class="student" action="{% url 'webpage:login' %}" method="post">
+                            {% csrf_token %}
                             {% bootstrap_form form %}
                             <div class="form-group">
-                                <center><button type="button" class="btn btn-danger">Submit</button></center>
+                                <center><button type="submit" class="btn btn-danger">Submit</button></center>
                             </div>
                         </form>
                     </div>

@@ -25,7 +25,12 @@
                   <input class="search_input" type="text" name="" placeholder="Search...">
                   <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                 </div>
-                <a href="{% url 'webpage:register' %}" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp; <a href="{% url 'webpage:login' %}" style="font-weight:bold;">Log In</a>
+                {% if end_user %}
+                    |  &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'webpage:logout' %}" style="font-weight:bold;">Log Out</a>
+                {% else %}
+                    <a href="{% url 'webpage:register' %}" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp;
+                    <a href="{% url 'webpage:login' %}" style="font-weight:bold;">Log In</a>
+                {% endif %}
             </div>
         </nav>
         {% block body %}

@@ -64,13 +64,40 @@ class StudentForm(ModelForm):
         }
 
 class LogInForm(forms.Form):
+
     USER_TYPE_CHOICE = {
         ('X',"----Select---"),
         ('O', 'Hostel_Owner'),
         ('S', 'Student'),
     }
-    username = forms.CharField(widget=forms.TextInput(attrs={'style': 'width:300px;'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'style': 'width:300px;'}),required = True)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}),required = True)
     user_type = forms.ChoiceField(widget=forms.Select(attrs={'style': 'width:300px;'}),choices=USER_TYPE_CHOICE)
     class Meta:
         fields = ['username','password','user_type']
+
+    def clean_user_type(self):
+        user_type = self.cleaned_data['user_type']
+        if user_type=='X':
+            raise forms.ValidationError("Please Select User Type")
+        return user_type
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        match = User.objects.filter(user_name=username)
+        if not len(match):
+            raise forms.ValidationError("User doesn't exists...")
+
+        return username
+
+    def clean(self):
+        cleaned_data = super(LogInForm, self).clean()
+        username = cleaned_data.get("username")
+        password = cleaned_data.get("password")
+        user_type = cleaned_data.get("user_type")
+
+        user = User.objects.filter(user_name=username,password=password,user_type=user_type)
+
+        if not len(user):
+            raise forms.ValidationError("password or usertype doesn't match with username...")
