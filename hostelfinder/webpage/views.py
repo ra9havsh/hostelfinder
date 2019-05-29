@@ -15,12 +15,21 @@ def log_out(request):
         return redirect("webpage:homepage")
 
 def homepage(request):
-        return render(request,'webpage/home_page.html')
+    if 'user_id' in request.session:
+        return log_in_session(request)
+
+    return render(request,'webpage/home_page.html')
 
 def register_view(request):
+    if 'user_id' in request.session:
+        return log_in_session(request)
+
     return render(request,'webpage/register.html')
 
 def register_form_view(request,user_type):
+    if 'user_id' in request.session:
+        return log_in_session(request)
+
     form = {}
     if request.method == "POST":
         if(user_type=="Hostel_Owner"):
@@ -53,6 +62,9 @@ def register_form_view(request,user_type):
     return render(request,'webpage/register_form.html',args)
 
 def login_form_view(request):
+    if 'user_id' in request.session:
+        return log_in_session(request)
+        
     if request.method == "POST":
         form = LogInForm(request.POST)
         data = request.POST.copy()
