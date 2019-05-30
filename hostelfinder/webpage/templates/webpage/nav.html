@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HostelFinder</title>
     {% load staticfiles %}
     {% block head %}
@@ -25,8 +26,8 @@
                   <input class="search_input" type="text" name="" placeholder="Search...">
                   <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                 </div>
-                {% if end_user %}
-                    |  &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'webpage:logout' %}" style="font-weight:bold;">Log Out</a>
+                {% if username %}
+                <span style="position:relative;top:3px;">Welcome {{username}}</span>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'webpage:logout' %}" style="font-weight:bold;">Log Out</a>
                 {% else %}
                     <a href="{% url 'webpage:register' %}" style="font-style:italic; font-size:0.9em;">register</a> &nbsp;|&nbsp;
                     <a href="{% url 'webpage:login' %}" style="font-weight:bold;">Log In</a>

@@ -1,0 +1,30 @@
+.hostel-form{
+    margin-top: 10px;
+    margin-bottom: 60px;
+    background-color:#EAEAEA66;
+    border-radius:4px;
+    padding:20px;
+}
+
+.form-group{
+    float:left;
+    margin-right: 50px;
+}
+
+form hr{
+    clear:both;
+}
+
+form label{
+    font-weight: bold;
+    color:  rgba(214,97,19);
+}
+
+form input, select{
+ border: 1px solid rgba(214,97,19,0.5) !important;
+}
+
+/*for room_price form-group*/
+.form-group:nth-child(18) {
+  margin-right:10px;
+}
