@@ -92,13 +92,21 @@
         background: orange;
         color: #e74c3c;
     }
+
+    .top-ban{
+        padding-top: 30px !important;
+    }
+
+    .home-page-top{
+        padding-top: 50px !important;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     .searchbar{
         position:relative;
         top: 50px;
-        left:100px;
+        left:150px;
         background-color: #EAEAEA;
      }
 
@@ -117,8 +125,9 @@
         color: #e74c3c;
     }
 }
+
 .top-ban{
-    padding-top: 20px;
+        padding-top: 20px;
 }
 
 .search{
@@ -128,8 +137,7 @@
     color : white;
     padding: 15px 10px 15px 10px;
     border-radius: 5px;
-    margin-right:10px;
-    margin-left: 30px;
+    margin: auto;
     margin-bottom:10px;
     overflow: hidden;
 }
@@ -156,7 +164,11 @@
   width:44%;
 }
 
-.search-btn{float:left;width:30%;}
+.search-btn{
+  float:left;
+  width:30%;
+ }
+
 .search-btn .btn-success{
   margin-top: 12px;
   width:100%;
@@ -167,6 +179,30 @@
 }
 .search-btn .btn-success:hover{
   border: 2px solid white;
+}
+
+@media only screen and (max-width: 1260px) and (min-width:768px){
+    .hostel-detail .form-group, .location .form-group, .price-range .form-group{
+        margin-right:1px;
+    }
+
+    .price-range .form-group input{
+        float: left;
+        width:40%;
+    }
+    .search-btn .btn-success{
+      font-size: 1em;
+      border: 1px solid white;
+    }
+    .search-btn .btn-success:hover{
+      border: 1px solid white;
+    }
+}
+
+@media only screen and (max-width: 924px) and (min-width:768px){
+    .hostel-detail .form-group:first-child{
+        content: "Type";
+    }
 }
 
 .carousel{

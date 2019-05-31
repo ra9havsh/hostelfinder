@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-from .forms import RegistrationForm, StudentForm, LogInForm
+from .forms import RegistrationForm, StudentForm, LogInForm, SearchForm
 from hostelAdmin.models import Hostel, Room, Location, Fee, Image
 from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, ImageForm
 from webpage.models import User, HostelOwner, Student
@@ -24,7 +24,15 @@ def homepage(request):
     if 'user_id' in request.session:
         return log_in_session(request)
 
-    return render(request,'webpage/home_page.html')
+    if request.method=="POST":
+        pass
+    else:
+        search_form = SearchForm()
+
+    args = {}
+    args["search_form"] = search_form
+
+    return render(request,'webpage/home_page.html',args)
 
 def register_view(request):
     if 'user_id' in request.session:
@@ -90,9 +98,9 @@ def user_hostel_owner(request,user_id):
     if 'user_id' in request.session and int(user_id)==request.session['user_id']:
         user_id =int(user_id)
         user = get_object_or_404(User,id = user_id)
-        hostel_owner = HostelOwner.objects.filter(user=user)
+        hostel_owner = HostelOwner.objects.filter(user=user).exists()
 
-        if not len(hostel_owner):
+        if not hostel_owner:
             return formHostel(request,user.user_name)
 
         return render(request, 'webpage/user_page.html', {'username': user.user_name})

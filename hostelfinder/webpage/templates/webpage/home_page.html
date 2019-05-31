@@ -1,52 +1,52 @@
 {% extends 'webpage/nav.html' %}
 {% block active-hostels %}class="nav-link active"{% endblock %}
 {% load static %}
+{% load bootstrap4 %}
+{% block head %}
+    <style>
+        @media only screen and (max-width: 800px) {
+            .container-fluid{
+                padding-top:50px !important;
+            }
+        }
+    </style>
+{% endblock %}
 {% block body %}
-<div class="row container-fluid top-ban m-auto">
-    <form method="post" action="#" class="col-sm-4 search">
+<div class="row container-fluid m-auto top-ban home-page-top">
+    <form method="post" action="{% url 'webpage:homepage' %}" class="col-sm-12 col-md-4 search">
+        {% csrf_token %}
         <div class="location">
             <div class="form-group">
                 <label for="district">District:</label>
-                <select class="form-control" id="district">
-                    <option>any</option>
-                    <option>kathmandu</option>
-                </select>
+                {{ search_form.district }}
             </div>
             <div class="form-group">
-                <label for="city">City:</label>
-                <select class="form-control" id="city">
-                    <option>any</option>
-                    <option>Maitidevi</option>
-                    <option>Maitidevi</option>
-                    <option>Maitidevi</option>
-                    <option>Maitidevi</option>
-                </select>
+                <label for="street">Street:</label>
+                {{ search_form.street }}
             </div>
         </div>
         <div class="hostel-detail">
             <div class="form-group">
-                <label for="hostel-type">Hostel type:</label>
-                <select class="form-control" id="hostel-type">
-                    <option>Girls</option>
-                    <option>Boys</option>
-                </select>
+                <label for="hostel-type">Type:</label>
+                {{ search_form.street }}
+
             </div>
             <div class="form-group">
                 <label for="seater">Seater:</label>
-                <input type="number" class="form-control" id="seater">
+                {{ search_form.seater_type }}
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity:</label>
-                <input type="number" class="form-control" id="quantity">
+                {{ search_form.quantity }}
             </div>
         </div>
         <div class="price-range">
             <div class="form-group" style="width:65%;">
                 <label for="range">Price Range:</label>
                 <div>
-                    <input type="number" class="form-control" id="range">
+                    {{ search_form.price_range1 }}
                     <span style="float:left;"> &nbsp;to&nbsp; </span>
-                    <input type="number" class="form-control">
+                    {{ search_form.price_range2 }}
                 </div>
             </div>
             <div class="search-btn">
@@ -55,7 +55,7 @@
         </div>
     </form>
 
-    <div id="demo" class="col-sm-7 carousel slide" data-ride="carousel">
+    <div id="demo" class="col-sm-12 col-md-8 carousel slide" data-ride="carousel">
 
       <!-- Indicators -->
       <ul class="carousel-indicators">

@@ -70,26 +70,19 @@ class LogInForm(forms.Form):
         ('O', 'Hostel_Owner'),
         ('S', 'Student'),
     }
-    username = forms.CharField(widget=forms.TextInput(attrs={'style': 'width:300px;'}),required = True)
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}),required = True)
+    username = forms.CharField(widget=forms.TextInput(attrs={'style': 'width:300px;'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}))
     user_type = forms.ChoiceField(widget=forms.Select(attrs={'style': 'width:300px;'}),choices=USER_TYPE_CHOICE)
     class Meta:
         fields = ['username','password','user_type']
 
     def clean_user_type(self):
         user_type = self.cleaned_data['user_type']
+
         if user_type=='X':
             raise forms.ValidationError("Please Select User Type")
+
         return user_type
-
-    def clean_username(self):
-        username = self.cleaned_data['username']
-
-        match = User.objects.filter(user_name=username)
-        if not len(match):
-            raise forms.ValidationError("User doesn't exists...")
-
-        return username
 
     def clean(self):
         cleaned_data = super(LogInForm, self).clean()
@@ -97,7 +90,25 @@ class LogInForm(forms.Form):
         password = cleaned_data.get("password")
         user_type = cleaned_data.get("user_type")
 
-        user = User.objects.filter(user_name=username,password=password,user_type=user_type)
 
-        if not len(user):
+        match = User.objects.filter(user_name=username).exists()
+        if not match:
+            raise forms.ValidationError("User doesn't exists...")
+
+        user = User.objects.filter(user_name=username,password=password,user_type=user_type).exists()
+
+        if not user:
             raise forms.ValidationError("password or usertype doesn't match with username...")
+
+class SearchForm(forms.Form):
+    district = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'district'}),required=False)
+    street = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'district'}),required=False)
+    hostel_type = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'hostel-type'}),required=False)
+    seater_type = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'seater'}),required=False)
+    quantity = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'qunatity'}),required=False)
+    price_range1 = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'range'}),required=False)
+    price_range2 = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}),required=False)
+
+
+    class Meta:
+        fields = ['district','street','hostel_type','seater_type','quantity','price_range1','price_range2']

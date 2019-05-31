@@ -112,43 +112,45 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6 hostel_owner">
-            <div class="paragraph">
-                <span class="title">Are you <h2>Hostel Owner???</h2></span>
-                <hr>
-                <p>Then we welcome you to our web application, providing you a platform
-                    to post your hostel on this site. Hostel seekers may find your hostel
-                    suitable as relative to their interest and may contact you. So, please
-                    grab this opportunity, we are here for you.</p>
+<div class="top-ban">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 hostel_owner">
+                <div class="paragraph">
+                    <span class="title">Are you <h2>Hostel Owner???</h2></span>
+                    <hr>
+                    <p>Then we welcome you to our web application, providing you a platform
+                        to post your hostel on this site. Hostel seekers may find your hostel
+                        suitable as relative to their interest and may contact you. So, please
+                        grab this opportunity, we are here for you.</p>
 
-                <div class="container button">
-                    <a href="{% url 'webpage:register_form' 'Hostel_Owner' %}">
-                        <div class="register_btn">Register As Hostel Owner</div>
-                    </a>
+                    <div class="container button">
+                        <a href="{% url 'webpage:register_form' 'Hostel_Owner' %}">
+                            <div class="register_btn">Register As Hostel Owner</div>
+                        </a>
+                    </div>
                 </div>
-            </div>
                 <div class="image-hostel">
                     <img src="{% static 'webpage/images/silhouette1.png' %}">
                 </div>
-        </div>
-        <div class="col-sm-6  hostel_seeker">
-            <div class="paragraph">
-                <span class="title">Are you <h2>Seeking Hostel???</h2></span>
-                <hr>
-                <p  dir="rtl"><bdi>Then we welcome you to our web application, providing you a platform
-                    to find a hostel on this site. You may find your hostel
-                    suitable as relative to your interest and you may contact the hostel owner. So, please
-                    grab this opportunity, we are here for you.</bdi></p>
-                <div class="container button">
-                    <a href="{% url 'webpage:register_form' 'Student' %}">
-                        <div class="register_btn">Register As Hostel Seeker</div>
-                    </a>
-                </div>
             </div>
-            <div class="image-hostel">
-                <img src="{% static 'webpage/images/silhouette2.png' %}">
+            <div class="col-sm-6  hostel_seeker">
+                <div class="paragraph">
+                    <span class="title">Are you <h2>Seeking Hostel???</h2></span>
+                    <hr>
+                    <p  dir="rtl"><bdi>Then we welcome you to our web application, providing you a platform
+                        to find a hostel on this site. You may find your hostel
+                        suitable as relative to your interest and you may contact the hostel owner. So, please
+                        grab this opportunity, we are here for you.</bdi></p>
+                    <div class="container button">
+                        <a href="{% url 'webpage:register_form' 'Student' %}">
+                            <div class="register_btn">Register As Hostel Seeker</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="image-hostel">
+                    <img src="{% static 'webpage/images/silhouette2.png' %}">
+                </div>
             </div>
         </div>
     </div>
