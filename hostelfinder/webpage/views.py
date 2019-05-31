@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
+from django.core.paginator import Paginator
 from .forms import RegistrationForm, StudentForm, LogInForm, SearchForm
 from hostelAdmin.models import Hostel, Room, Location, Fee, Image
 from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, ImageForm
@@ -25,7 +26,52 @@ def homepage(request):
         return log_in_session(request)
 
     if request.method=="POST":
-        pass
+        search_form = SearchForm(request.POST)
+        data = request.POST.copy()
+        district = data['district']
+        street = data['street']
+        hostel_type = data['hostel_type']
+        seater_type = data['seater_type']
+        quantity = data['quantity']
+        price_range1 = data['price_range1']
+        price_range2 = data['price_range2']
+
+        searched = False
+        hostel = Hostel.objects.all()
+
+        if district:
+            hostel = hostel.filter(location__district__icontains=district)
+            searched = True
+
+        if street:
+            hostel = hostel.filter(location__street__icontains=street)
+            searched = True
+
+        if hostel_type and hostel_type!='A':
+            hostel = hostel.filter(hostel_type=hostel_type)
+            searched = True
+
+        if seater_type:
+            hostel = hostel.filter(room__seater_type=seater_type)
+            searched = True
+
+        if quantity:
+            hostel = hostel.filter(room__quantity=quantity)
+            searched = True
+
+        if price_range1:
+            hostel = hostel.filter(fee__admission_fee__gte=price_range1)
+            searched = True
+
+        if price_range2:
+            hostel = hostel.filter(fee__admission_fee__lte=price_range2)
+            searched = True
+
+        if searched:
+            paginator = Paginator(hostel, 18)  # Show 18 contacts per page
+            page = request.GET.get('page')
+            hostels = paginator.get_page(page)
+            return render(request,'webpage/search_result.html',{'hostels':hostels})
     else:
         search_form = SearchForm()
 

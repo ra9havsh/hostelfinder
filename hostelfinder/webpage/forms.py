@@ -1,6 +1,7 @@
 from django.forms import  ModelForm
 from django import forms
 from .models import User, HostelOwner, Student
+from hostelAdmin.models import Location, Hostel
 
 class RegistrationForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}))
@@ -101,9 +102,21 @@ class LogInForm(forms.Form):
             raise forms.ValidationError("password or usertype doesn't match with username...")
 
 class SearchForm(forms.Form):
-    district = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'district'}),required=False)
-    street = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'district'}),required=False)
-    hostel_type = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'hostel-type'}),required=False)
+    HOSTEL_TYPE_CHOICE={
+        ('A','Any'),
+        ('B','Boys'),
+        ('G','Girls'),
+    }
+
+    district = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'district'}),
+                                      queryset=Location.objects.values_list('district',flat=True).distinct(),required=False)
+
+    street = forms.ModelChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'street'}),
+                               queryset=Location.objects.values_list('street', flat=True).distinct(),required=False)
+
+    hostel_type = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control','id':'hostel-type'}),
+                                         choices=HOSTEL_TYPE_CHOICE, required = False)
+
     seater_type = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'seater'}),required=False)
     quantity = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'qunatity'}),required=False)
     price_range1 = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control','id':'range'}),required=False)

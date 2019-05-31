@@ -2,8 +2,8 @@ from django.db import models
 from django.urls import reverse
 
 class Location(models.Model):
-    city = models.CharField(max_length=250)
-    street = models.CharField(max_length=250, default="Kathmandu")
+    district = models.CharField(max_length=250, default="Kathmandu")
+    street = models.CharField(max_length=250)
     province = models.IntegerField(default=3)
     zip = models.CharField(max_length=250)
     country = models.CharField(max_length=250, default="Nepal")
@@ -43,9 +43,9 @@ class Room(models.Model):
 
 class Fee(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
-    admission_fee = models.CharField(max_length=250)
-    refundable_fee = models.CharField(max_length=250)
-    security_fee = models.CharField(max_length=250)
+    admission_fee = models.IntegerField(default=0)
+    refundable_fee = models.IntegerField(default=0)
+    security_fee = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' fee'
