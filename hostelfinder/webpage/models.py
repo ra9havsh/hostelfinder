@@ -33,3 +33,11 @@ class Student(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+
+    def __str__(self):
+        return str(self.user) + ' - ' + str(self.hostel) + ' - ' + str(self.rating)

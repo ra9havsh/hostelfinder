@@ -1,5 +1,4 @@
 {% extends 'webpage/nav.html' %}
-{% block active-hostels %}class="nav-link active"{% endblock %}
 {% load static %}
 {% load bootstrap4 %}
 {% block head %}
@@ -13,7 +12,7 @@
 {% endblock %}
 {% block body %}
 <div class="row container-fluid m-auto top-ban home-page-top">
-    <form method="get" action="{% url 'webpage:homepage' %}" class="col-sm-12 col-md-4 search">
+    <form method="get" action="{% if username %}{% url 'webpage:user_student' user_id %}{% else %}{% url 'webpage:homepage'%}{% endif %}" class="col-sm-12 col-md-4 search">
         {% csrf_token %}
         <div class="location">
             <div class="form-group">
@@ -111,7 +110,9 @@
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
                     </div>
-                    <button type="button" class="btn btn-success">View Detail</button>
+                    <a href="#">
+                        <button type="button" class="btn btn-success">View Detail</button>
+                    </a>
                 </div>
             </div>
         </div>

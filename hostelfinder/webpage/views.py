@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from .forms import RegistrationForm, StudentForm, LogInForm, SearchForm
 from hostelAdmin.models import Hostel, Room, Location, Fee, Image
 from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, ImageForm
-from webpage.models import User, HostelOwner, Student
+from webpage.models import User, HostelOwner, Student, Rating
 import json
 
 def log_in_session(request):
@@ -78,6 +78,11 @@ def homepage(request):
     args["search_form"] = search_form
 
     return render(request,'webpage/home_page.html',args)
+
+def HostelDetailView(request, pk):
+    hostel = Hostel.objects.get(id=pk)
+    args = {'hostel':hostel}
+    return render(request,'webpage/hostel_detail.html',args)
 
 def register_view(request):
     if 'user_id' in request.session:
@@ -207,6 +212,7 @@ def user_student(request,user_id):
         args = {}
         args["search_form"] = search_form
         args["username"] = user.user_name
+        args["user_id"] = user_id
         return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)
@@ -266,3 +272,17 @@ def formHostel(request,username):
     args['image_form'] = image_form
 
     return render(request, 'webpage/hostel_registration.html',{'args':args,'username':username,'user_id':request.session['user_id']})
+
+def rating(request,pk,rate):
+
+    if 'user_id' in request.session:
+        hostel = Hostel.objects.get(id=pk)
+        user_id = request.session['user_id']
+        user = User.objects.get(id=user_id)
+        rating = Rating.objects.filter(user=user,hostel=hostel).exists()
+        if not rating:
+            rating = Rating.objects.create(user=user,hostel=hostel,rating=rate)
+        else:
+            rating = Rating.objects.filter(user=user,hostel=hostel).update(rating=rate)
+
+    return redirect("webpage:hostel_details",pk)

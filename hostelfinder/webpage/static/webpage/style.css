@@ -296,6 +296,8 @@
     font-size: 0.8em;
 }
 
+
+/*for star-rating of recommend*/
 .rating-star{
     position: relative;
     right: 0;
@@ -341,3 +343,12 @@
     float:left;
     margin-right: 50px;
 }
+
+
+/*for star-rating of hostel-detail*/
+.star-rating {
+  line-height:32px;
+  font-size:1.25em;
+}
+
+.star-rating .fa-star{color: yellow;}
