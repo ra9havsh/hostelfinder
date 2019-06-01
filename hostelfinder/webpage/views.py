@@ -25,16 +25,15 @@ def homepage(request):
     if 'user_id' in request.session:
         return log_in_session(request)
 
-    if request.method=="POST":
-        search_form = SearchForm(request.POST)
-        data = request.POST.copy()
-        district = data['district']
-        street = data['street']
-        hostel_type = data['hostel_type']
-        seater_type = data['seater_type']
-        quantity = data['quantity']
-        price_range1 = data['price_range1']
-        price_range2 = data['price_range2']
+    if request.method=="GET":
+        search_form = SearchForm(request.GET)
+        district = request.GET.get('district')
+        street = request.GET.get('street')
+        hostel_type =request.GET.get('hostel_type')
+        seater_type = request.GET.get('seater_type')
+        quantity = request.GET.get('quantity')
+        price_range1 =request.GET.get('price_range1')
+        price_range2 = request.GET.get('price_range2')
 
         searched = False
         hostel = Hostel.objects.all()
@@ -156,7 +155,59 @@ def user_hostel_owner(request,user_id):
 def user_student(request,user_id):
     if 'user_id' in request.session:
         user = get_object_or_404(User,id = request.session['user_id'])
-        return render(request, 'webpage/user_page.html', {'username': user.user_name})
+        if request.method == "GET":
+            search_form = SearchForm(request.GET)
+            district = request.GET.get('district')
+            street = request.GET.get('street')
+            hostel_type = request.GET.get('hostel_type')
+            seater_type = request.GET.get('seater_type')
+            quantity = request.GET.get('quantity')
+            price_range1 = request.GET.get('price_range1')
+            price_range2 = request.GET.get('price_range2')
+
+            searched = False
+            hostel = Hostel.objects.all()
+
+            if district:
+                hostel = hostel.filter(location__district__icontains=district)
+                searched = True
+
+            if street:
+                hostel = hostel.filter(location__street__icontains=street)
+                searched = True
+
+            if hostel_type and hostel_type != 'A':
+                hostel = hostel.filter(hostel_type=hostel_type)
+                searched = True
+
+            if seater_type:
+                hostel = hostel.filter(room__seater_type=seater_type)
+                searched = True
+
+            if quantity:
+                hostel = hostel.filter(room__quantity=quantity)
+                searched = True
+
+            if price_range1:
+                hostel = hostel.filter(fee__admission_fee__gte=price_range1)
+                searched = True
+
+            if price_range2:
+                hostel = hostel.filter(fee__admission_fee__lte=price_range2)
+                searched = True
+
+            if searched:
+                paginator = Paginator(hostel, 18)  # Show 18 contacts per page
+                page = request.GET.get('page')
+                hostels = paginator.get_page(page)
+                return render(request, 'webpage/search_result.html', {'hostels': hostels})
+        else:
+            search_form = SearchForm()
+
+        args = {}
+        args["search_form"] = search_form
+        args["username"] = user.user_name
+        return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)
 

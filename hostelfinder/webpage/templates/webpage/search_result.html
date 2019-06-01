@@ -21,7 +21,7 @@
     <div class="recommends">
         {% if hostels %}
             {% for h in hostels %}
-            <div class="col-sm-4 hostel-box">
+            <div class="col-lg-4 col-md-6 col-sm-12 hostel-box">
                 <div class="hostel-box-content">
                     <div class="image-box">
                         <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
@@ -45,13 +45,13 @@
         <div class="container" style="clear:both;">
             <ul class="col-sm-6 pagination m-auto">
                 {% if hostels.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ hostels.previous_page_number }}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page=1">&laquo; first</a></li>
+                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ hostels.previous_page_number }}">Previous</a></li>
                 {% endif %}
                 <li class="page-item"><a class="page-link" href="#"> Page {{ hostels.number }} of {{ hostels.paginator.num_pages }}.</a></li>
                 {% if hostels.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ hostels.next_page_number }}">Next</a></li>
-                <li class="page-item"><a class="page-link" href="?page={{ hostels.paginator.num_pages }}">Last &raquo;</a></li>
+                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ hostels.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{{request.get_full_path}}&page={{ hostels.paginator.num_pages }}">Last &raquo;</a></li>
                 {% endif %}
             </ul>
         </div>

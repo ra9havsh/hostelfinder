@@ -13,7 +13,7 @@
 {% endblock %}
 {% block body %}
 <div class="row container-fluid m-auto top-ban home-page-top">
-    <form method="post" action="{% url 'webpage:homepage' %}" class="col-sm-12 col-md-4 search">
+    <form method="get" action="{% url 'webpage:homepage' %}" class="col-sm-12 col-md-4 search">
         {% csrf_token %}
         <div class="location">
             <div class="form-group">
@@ -95,7 +95,7 @@
     </div>
     <div class="recommends">
         {% for x in "aaaaaaaaaaaa" %}
-        <div class="col-sm-4 hostel-box">
+        <div class="col-lg-4 col-md-6 col-sm-12 hostel-box">
             <div class="hostel-box-content">
                 <div class="image-box">
                     <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
