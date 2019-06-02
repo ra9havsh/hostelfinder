@@ -158,8 +158,10 @@ def user_hostel_owner(request,user_id):
 
         if not hostel_owner:
             return formHostel(request,user.user_name)
+        else:
+            hostel_owner = HostelOwner.objects.get(user=user)
 
-        return render(request, 'webpage/user_page.html', {'username': user.user_name})
+        return redirect("webpage:hostel_details",hostel_owner.hostel.pk)
     else:
         raise Http404('Page not found with user Id : '+ user_id)
 

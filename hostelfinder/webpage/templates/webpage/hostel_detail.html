@@ -23,7 +23,6 @@
         opacity: 0.7;
         color:white;
         font-weight:bolder;
-        margin-top:5px;
         padding:10px;
     }
     .hostel-name{
@@ -46,25 +45,51 @@
     td{
         vertical-align: top;
     }
+    .profile-img{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-right: 0 !important;
+        height:200px;
+        width:100%;
+        border:6px solid #FFA500A6;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    iframe{
+        padding-left:0 !important;
+        padding-right:0 !important;
+    }
+    .hotel-rating .fa-star{color: white;}
+    .hotel-rating .rated{color: orange;}
+    .your-hotel-rating .fa-star{color: black;}
+    .your-hotel-rating .rated{color: orange;}
 </style>
 {% endblock %}
 {% block body %}
 <div class="container-fluid top-ban">
     <div class="row">
         <div class="col-sm-12 col-md-4">
-            <iframe class="col-sm-12" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6074288719055!2d85.33026931443418!3d27.698525732487727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzU0LjciTiA4NcKwMTknNTYuOSJF!5e0!3m2!1sen!2snp!4v1559390573744!5m2!1sen!2snp" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <div class="col-sm-12 row" style="margin: 0 !important; padding:0 !important;">
+                <iframe class="col-sm-7" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6074288719055!2d85.33026931443418!3d27.698525732487727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzU0LjciTiA4NcKwMTknNTYuOSJF!5e0!3m2!1sen!2snp!4v1559390573744!5m2!1sen!2snp" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <img class="col-sm-5 profile-img" src="{% static 'webpage/images/la.jpg' %}" alt="profile image">
+                <div class="hotel-rating" style="position:absolute; bottom:10px; right:10px;">
+                    <span class="fa fa-star rated" data-rating="1"></span>
+                    <span class="fa fa-star rated" data-rating="2"></span>
+                    <span class="fa fa-star" data-rating="3"></span>
+                    <span class="fa fa-star" data-rating="4"></span>
+                    <span class="fa fa-star" data-rating="5"></span>
+                </div>
+            </div>
             <div class="infobox">
                  <table class="table-sm">
                       <tbody style="color:white;">
                         <tr>
                           <td>Hostel Type : </td>
                           <td>{{ hostel.get_hostel_type_display }}</td>
-                          <td rowspan="3" class="col-sm-2"></td>
                         </tr>
                         <tr>
                           <td>Contact No : </td>
                           <td>{{ hostel.hostel_phone }}, {{ hostel.hostel_mobile }}</td>
-                          <td></td>
                         </tr>
                         <tr>
                           <td>Location &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </td>
@@ -74,7 +99,6 @@
                                     <br>{{ hostel.additional_location }}
                               {% endif %}
                           </td>
-                          <td></td>
                         </tr>
                       </tbody>
                     </table>
@@ -99,6 +123,15 @@
                         </tbody>
                     </table>
              </div>
+            <div class="col-sm-12 your-hotel-rating">
+                <h6>Your Rating: </h6>
+                <a href="{% url 'webpage:rate' hostel.pk 1 %}" ><span class="fa fa-star rated" data-rating="1"></span></a>
+                <a href="{% url 'webpage:rate' hostel.pk 2 %}" ><span class="fa fa-star rated" data-rating="2"></span></a>
+                <a href="{% url 'webpage:rate' hostel.pk 3 %}" ><span class="fa fa-star" data-rating="3"></span></a>
+                <a href="{% url 'webpage:rate' hostel.pk 4 %}" ><span class="fa fa-star" data-rating="4"></span></a>
+                <a href="{% url 'webpage:rate' hostel.pk 5 %}" ><span class="fa fa-star" data-rating="5"></span></a>
+                <input type="hidden" name="whatever2" class="rating-value" value="2">
+            </div>
         </div> <!--col-sm-4 ends here -->
 
         <!-- col-sm-7 starts-->
