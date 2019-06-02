@@ -3,9 +3,9 @@
     var SetRatingStar = function() {
       return $star_rating.each(function() {
         if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
-          return $(this).addClass('checked');
+          return $(this).addClass('rated');
         } else {
-          return $(this).removeClass('checked');
+          return $(this).removeClass('rated');
         }
       });
     };

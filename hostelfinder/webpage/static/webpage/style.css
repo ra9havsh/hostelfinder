@@ -346,9 +346,5 @@
 
 
 /*for star-rating of hostel-detail*/
-.star-rating {
-  line-height:32px;
-  font-size:1.25em;
-}
-
-.star-rating .fa-star{color: yellow;}
+.star-rating .fa-star{color: black;}
+.star-rating .rated{color: orange;}

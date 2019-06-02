@@ -81,7 +81,13 @@ def homepage(request):
 
 def HostelDetailView(request, pk):
     hostel = Hostel.objects.get(id=pk)
-    args = {'hostel':hostel}
+
+    if 'user_id' in request.session:
+        user_id = request.session['user_id']
+        user = get_object_or_404(User, id=user_id)
+        args = {'hostel':hostel,'username':user.user_name}
+    else:
+        args = {'hostel':hostel}
     return render(request,'webpage/hostel_detail.html',args)
 
 def register_view(request):
@@ -205,7 +211,7 @@ def user_student(request,user_id):
                 paginator = Paginator(hostel, 18)  # Show 18 contacts per page
                 page = request.GET.get('page')
                 hostels = paginator.get_page(page)
-                return render(request, 'webpage/search_result.html', {'hostels': hostels})
+                return render(request, 'webpage/search_result.html', {'hostels': hostels,'username':user.user_name})
         else:
             search_form = SearchForm()
 
@@ -274,7 +280,6 @@ def formHostel(request,username):
     return render(request, 'webpage/hostel_registration.html',{'args':args,'username':username,'user_id':request.session['user_id']})
 
 def rating(request,pk,rate):
-
     if 'user_id' in request.session:
         hostel = Hostel.objects.get(id=pk)
         user_id = request.session['user_id']
