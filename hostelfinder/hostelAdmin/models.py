@@ -23,7 +23,7 @@ class Hostel(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
     latitude = models.DecimalField(max_digits=10,decimal_places=8, default=0.000000)
     longitude = models.DecimalField(max_digits=11,decimal_places=8, default=0.00000)
-    additional_location = models.CharField(max_length=250)
+    additional_location = models.CharField(max_length=250, null = True, blank=True)
 
     #def get_absolute_url(self):
      #   return reverse('hostelAdmin:hostel_details', kwargs={'pk':self.pk})

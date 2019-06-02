@@ -123,15 +123,18 @@
                         </tbody>
                     </table>
              </div>
-            <div class="col-sm-12 your-hotel-rating">
-                <h6>Your Rating: </h6>
-                <a href="{% url 'webpage:rate' hostel.pk 1 %}" ><span class="fa fa-star rated" data-rating="1"></span></a>
-                <a href="{% url 'webpage:rate' hostel.pk 2 %}" ><span class="fa fa-star rated" data-rating="2"></span></a>
-                <a href="{% url 'webpage:rate' hostel.pk 3 %}" ><span class="fa fa-star" data-rating="3"></span></a>
-                <a href="{% url 'webpage:rate' hostel.pk 4 %}" ><span class="fa fa-star" data-rating="4"></span></a>
-                <a href="{% url 'webpage:rate' hostel.pk 5 %}" ><span class="fa fa-star" data-rating="5"></span></a>
-                <input type="hidden" name="whatever2" class="rating-value" value="2">
-            </div>
+            {% if rating or username %}
+                <div class="col-sm-12 your-hotel-rating">
+                    <h6>Your Rating: </h6>
+                    {% for i in '12345' %}
+                        {% if forloop.counter <= rating %}
+                            <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star rated" data-rating="{{ forloop.counter }}"></span></a>
+                        {% else %}
+                        <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star" data-rating="{{ forloop.counter }}"></span></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div> <!--col-sm-4 ends here -->
 
         <!-- col-sm-7 starts-->

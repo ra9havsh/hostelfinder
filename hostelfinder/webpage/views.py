@@ -80,12 +80,22 @@ def homepage(request):
     return render(request,'webpage/home_page.html',args)
 
 def HostelDetailView(request, pk):
-    hostel = Hostel.objects.get(id=pk)
+    hostel = get_object_or_404(Hostel,id=pk)
 
     if 'user_id' in request.session:
         user_id = request.session['user_id']
         user = get_object_or_404(User, id=user_id)
-        args = {'hostel':hostel,'username':user.user_name}
+
+        if user.user_type=='O':
+            hostel_owner = get_object_or_404(HostelOwner,user_id=user_id,hostel_id=pk)
+
+        rating = Rating.objects.filter(user_id=user_id,hostel_id=pk).exists()
+
+        if rating:
+            rating = get_object_or_404(Rating,user_id=user_id, hostel_id=pk)
+            args = {'hostel': hostel, 'username': user.user_name,'rating':rating.rating}
+        else:
+            args = {'hostel':hostel,'username':user.user_name}
     else:
         args = {'hostel':hostel}
     return render(request,'webpage/hostel_detail.html',args)
@@ -166,7 +176,7 @@ def user_hostel_owner(request,user_id):
         raise Http404('Page not found with user Id : '+ user_id)
 
 def user_student(request,user_id):
-    if 'user_id' in request.session:
+    if 'user_id' in request.session  and int(user_id)==request.session['user_id']:
         user = get_object_or_404(User,id = request.session['user_id'])
         if request.method == "GET":
             search_form = SearchForm(request.GET)
