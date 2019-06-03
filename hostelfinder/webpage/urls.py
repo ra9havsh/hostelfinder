@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^$', views.homepage, name='homepage'),
     url(r'^register/', views.register_view, name='register'),
     url(r'^hostels/(?P<pk>[0-9]+)/$', views.HostelDetailView, name='hostel_details'),
+    url(r'^hostels/edit/(?P<pk>[0-9]+)/$', views.HostelEditView, name='hostel_edit'),
     url(r'^hostel/(?P<pk>[0-9]+)/rate/(?P<rate>[1-5]+)/$', views.rating, name='rate'),
     url(r'^register_form/(?P<user_type>[a-zA-Z_]+)/$', views.register_form_view, name='register_form'),
     url(r'^login/', views.login_form_view, name='login'),

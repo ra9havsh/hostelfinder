@@ -1,0 +1,135 @@
+{% extends 'webpage/nav.html' %}
+{% block active-hostels %}class="nav-link active"{% endblock %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'webpage/hostel_form.css' %}">
+{% endblock %}
+
+{% block body %}
+ <div class="container" style="margin-top: 60px; margin-bottom: 60px; background-color:white; border-radius:4px; padding:20px; display:flex;">
+        <form method="POST" class="form" enctype="multipart/form-data" action="{% url 'webpage:hostel_edit' hostel.pk %}">
+            {% csrf_token %}
+            {% bootstrap_form hostel_form %}
+            <hr>
+            {% bootstrap_form fee_form %}
+            <hr>
+            {% bootstrap_form room_form %}
+            <div class="form-group">
+                <label style="visibility:hidden">add button</label>
+                    <div class="col-sm-5">
+                        <button type="button" class="btn btn-info" id="add">Add</button>
+                    </div>
+            </div>
+            <div id="room_error"></div>
+            <div id="room">
+                <table class="table">
+                    <thead>
+                        <th>Seater Type</th>
+                        <th>Quantity</th>
+                        <th>Room Price</th>
+                    </thead>
+                    <tbody id="room_table">
+
+                    </tbody>
+                </table>
+            </div>
+            {% bootstrap_form roomDetail_form %}
+            <hr>
+            {% bootstrap_form image_form %}
+            <hr>
+            <div class="form-group" style="clear:both; position:relative; left:45%; top:10px;">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </form>
+        <script>
+        var arr = [];
+
+        window.onload = function(){
+                room_detail = $('#room_json').val();
+                arr = JSON.parse(room_detail);
+                createTable(arr);
+        }
+
+        function createJSON(seater_type,quantity,room_price){
+            arr.push({
+                "seater_type" : seater_type,
+                "quantity" : quantity,
+                "room_price" : room_price,
+            });
+
+            return arr;
+        }
+
+        function createTable(data){
+            var room = '';
+            var room_json = [];
+
+            for(value in data){
+                 room += '<tr id="room'+ value +'">';
+                 room += '<td>'+data[value].seater_type+'</td>';
+                 room += '<td>'+data[value].quantity+'</td>';
+                 room += '<td>'+data[value].room_price+
+                  '<button type="button" class="btn btn-danger"  style="margin-left:50px;"><i class="fas fa-trash-alt"></i></button></td>';
+                 room += '</tr>';
+            }
+
+            $('#room_table').html(room);
+
+            for(value in arr){
+                room_json.push({
+                    "seater_type" : arr[value].seater_type,
+                    "quantity" : arr[value].quantity,
+                    "room_price" : arr[value].room_price,
+                });
+            }
+
+            $('#room_json').val(JSON.stringify(room_json));
+        }
+
+            $('#add').click(function(){
+
+                seater_type = $('#seater_type').val();
+                quantity = $('#quantity').val();
+                room_price = $('#room_price').val();
+
+                if(valid()){
+                    createJSON(seater_type,quantity,room_price);
+                    console.log(arr);
+                    createTable(arr);
+                    $('#room_price').val("");
+                }
+
+                function valid(){
+                    if(room_price == "" || seater_type == 0 || quantity == 0){
+                        $('#room_error').html("<p style='color:red;'>please! insert the values.....<p>");
+
+                        if(room_price=="")
+                        $('#room_error').append("<p style='color:red;'>* room price required</p>");
+
+                        if(seater_type==0)
+                        $('#room_error').append("<p style='color:red;'>* seater type required</p>");
+
+                        if(quantity==0)
+                        $('#room_error').append("<p style='color:red;'>* quantity required</p>");
+
+                        return false;
+                    }
+
+                    return true;
+                }
+            });
+
+            $('table').on('click', 'button', function(e){
+               id_value = $(this).closest('tr').attr('id');
+               index = parseInt(id_value[id_value.length-1]);
+               console.log(index);
+               delete arr[index];
+               createTable(arr);
+            })
+        </script>
+    </div>
+{% endblock %}

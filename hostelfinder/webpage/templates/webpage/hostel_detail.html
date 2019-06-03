@@ -123,17 +123,28 @@
                         </tbody>
                     </table>
              </div>
-            {% if rating or username %}
-                <div class="col-sm-12 your-hotel-rating">
+            {% if username %}
+            <div class="row col-sm-12">
+                <div class="col-sm-6 your-hotel-rating">
+                {% if rating or username %}
                     <h6>Your Rating: </h6>
                     {% for i in '12345' %}
                         {% if forloop.counter <= rating %}
                             <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star rated" data-rating="{{ forloop.counter }}"></span></a>
                         {% else %}
-                        <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star" data-rating="{{ forloop.counter }}"></span></a>
+                            <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star" data-rating="{{ forloop.counter }}"></span></a>
                         {% endif %}
                     {% endfor %}
+                {% endif %}
                 </div>
+                <div class="col-sm-6">
+                    {% if hostel.hostelowner_set.first %}
+                    <a href="{% url 'webpage:hostel_edit' hostel.pk %}" style="position:absolute;right:0;bottom:0;">
+                        <button type="button" class="btn btn-info"><i class="far fa-edit"></i>Edit Details</button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
             {% endif %}
         </div> <!--col-sm-4 ends here -->
 
@@ -263,9 +274,7 @@
              <!--<p><label>image 5</label><img src="/media/{{ image.image5 }}" height="200px" width="200px" alt="no image"/></p>-->
         <!--{% endfor %}-->
 
-        <!--<a href="{% url 'hostelAdmin:hostel_edit' hostel.pk %}">-->
-            <!--<button type="button" class="btn btn-info"><i class="far fa-edit"></i>Edit</button>-->
-        <!--</a>-->
+
         <!--<a href="{% url 'hostelAdmin:hostel_delete' hostel.pk %}">-->
             <!--<button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</button>-->
         <!--</a>-->

@@ -100,6 +100,131 @@ def HostelDetailView(request, pk):
         args = {'hostel':hostel}
     return render(request,'webpage/hostel_detail.html',args)
 
+def HostelEditView(request, pk):
+    if 'user_id' in request.session:
+        user_id = request.session['user_id']
+        hostel_owner = get_object_or_404(HostelOwner,user_id=user_id,hostel_id=pk)
+        if request.method == "POST":
+            hostel_form = HostelForm(request.POST,instance=Hostel.objects.get(id=pk))
+            room_form = RoomForm(request.POST)
+            fee_form = FeeForm(request.POST,instance=Fee.objects.get(hostel_id=pk))
+            roomDetail_form = RoomDetailForm(request.POST)
+            image_form = ImageForm(request.POST,request.FILES,instance=Image.objects.get(hostel_id=pk))
+            data = roomDetail_form.data['room_detail']
+
+            if hostel_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
+                hostel = hostel_form.save()
+                room = room_form.save(False)
+                fee = fee_form.save(False)
+                image = image_form.save(False)
+
+                Room.objects.filter(hostel_id=pk).delete()
+
+                if data:
+                    data = json.loads(roomDetail_form.data['room_detail'])
+
+                    for x in data:
+                        r = Room()
+                        r.hostel = hostel
+                        r.seater_type = x['seater_type']
+                        r.quantity = x['quantity']
+                        r.room_price = x['room_price']
+                        r.save()
+
+                room.hostel =hostel
+                fee.hostel = hostel
+                image.hostel = hostel
+                fee.save()
+                image.save()
+
+                return redirect("webpage:hostel_details",pk=pk)
+
+        else:
+            hostel_form = HostelForm(instance=Hostel.objects.get(id=pk))
+            room_form = RoomForm()
+
+            #for fill the list in the room_detail field in RoomDetailForm
+            room = list(Room.objects.filter(hostel_id=pk))
+            room_detail = []
+
+            for x in room:
+                room_detail.append({
+                    'seater_type':x.seater_type,
+                    'quantity':x.seater_type,
+                    'room_price':x.room_price
+                })
+
+            roomDetail_form = RoomDetailForm(initial={'room_detail': json.dumps(room_detail)})
+            fee_form = FeeForm(instance=Fee.objects.get(hostel_id=pk))
+            image_form = ImageForm(instance=Image.objects.get(hostel_id=pk))
+
+        args = {}
+        #args.update(csrf(request))
+        args['hostel_form'] = hostel_form
+        args['room_form'] = room_form
+        args['fee_form'] = fee_form
+        args['roomDetail_form'] = roomDetail_form
+        args['image_form'] = image_form
+        args['hostel'] = Hostel.objects.get(id=pk)
+
+        return render(request,'webpage/hostel_edit.html',args)
+
+def formHostel(request,username):
+    if request.method == "POST":
+        hostel_form = HostelForm(request.POST)
+        room_form = RoomForm(request.POST)
+        fee_form = FeeForm(request.POST)
+        image_form = ImageForm(request.POST,request.FILES)
+        roomDetail_form = RoomDetailForm(request.POST)
+        data = roomDetail_form.data['room_detail']
+
+        if hostel_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
+            hostel = hostel_form.save()
+            room = room_form.save(False)
+            fee = fee_form.save(False)
+            image = image_form.save(False)
+
+            if data:
+                data = json.loads(roomDetail_form.data['room_detail'])
+                print(data)
+
+                for x in data:
+                   r = Room()
+                   r.hostel=hostel
+                   r.seater_type=x['seater_type']
+                   r.quantity=x['quantity']
+                   r.room_price=x['room_price']
+                   r.save()
+
+            room.hostel =hostel
+            fee.hostel = hostel
+            image.hostel = hostel
+            fee.save()
+            image.save()
+            user = User.objects.get(id=request.session['user_id'])
+            hostel_owner = HostelOwner()
+            hostel_owner.user = user
+            hostel_owner.hostel = hostel
+            hostel_owner.save()
+            return redirect("webpage:user_hostel_owner",request.session['user_id'])
+
+    else:
+        hostel_form = HostelForm()
+        room_form = RoomForm()
+        fee_form = FeeForm()
+        roomDetail_form = RoomDetailForm()
+        image_form = ImageForm()
+
+    args = {}
+    #args.update(csrf(request))
+    args['hostel_form'] = hostel_form
+    args['room_form'] = room_form
+    args['fee_form'] = fee_form
+    args['roomDetail_form'] = roomDetail_form
+    args['image_form'] = image_form
+
+    return render(request, 'webpage/hostel_registration.html',{'args':args,'username':username,'user_id':request.session['user_id']})
+
 def register_view(request):
     if 'user_id' in request.session:
         return log_in_session(request)
@@ -234,62 +359,6 @@ def user_student(request,user_id):
         return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)
-
-def formHostel(request,username):
-    if request.method == "POST":
-        hostel_form = HostelForm(request.POST)
-        room_form = RoomForm(request.POST)
-        fee_form = FeeForm(request.POST)
-        image_form = ImageForm(request.POST,request.FILES)
-        roomDetail_form = RoomDetailForm(request.POST)
-        data = roomDetail_form.data['room_detail']
-
-        if hostel_form.is_valid() and fee_form.is_valid() and image_form.is_valid():
-            hostel = hostel_form.save()
-            room = room_form.save(False)
-            fee = fee_form.save(False)
-            image = image_form.save(False)
-
-            if data:
-                data = json.loads(roomDetail_form.data['room_detail'])
-                print(data)
-
-                for x in data:
-                   r = Room()
-                   r.hostel=hostel
-                   r.seater_type=x['seater_type']
-                   r.quantity=x['quantity']
-                   r.room_price=x['room_price']
-                   r.save()
-
-            room.hostel =hostel
-            fee.hostel = hostel
-            image.hostel = hostel
-            fee.save()
-            image.save()
-            user = User.objects.get(id=request.session['user_id'])
-            hostel_owner = HostelOwner()
-            hostel_owner.user = user
-            hostel_owner.hostel = hostel
-            hostel_owner.save()
-            return redirect("webpage:user_hostel_owner",request.session['user_id'])
-
-    else:
-        hostel_form = HostelForm()
-        room_form = RoomForm()
-        fee_form = FeeForm()
-        roomDetail_form = RoomDetailForm()
-        image_form = ImageForm()
-
-    args = {}
-    #args.update(csrf(request))
-    args['hostel_form'] = hostel_form
-    args['room_form'] = room_form
-    args['fee_form'] = fee_form
-    args['roomDetail_form'] = roomDetail_form
-    args['image_form'] = image_form
-
-    return render(request, 'webpage/hostel_registration.html',{'args':args,'username':username,'user_id':request.session['user_id']})
 
 def rating(request,pk,rate):
     if 'user_id' in request.session:
