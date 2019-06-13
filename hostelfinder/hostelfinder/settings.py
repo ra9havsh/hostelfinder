@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'NAME': 'hostelfinder',
+        'NAME': 'projectdefense',
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',

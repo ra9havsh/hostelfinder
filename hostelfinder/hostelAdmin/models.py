@@ -5,7 +5,7 @@ class Location(models.Model):
     district = models.CharField(max_length=250, default="Kathmandu")
     street = models.CharField(max_length=250)
     province = models.IntegerField(default=3)
-    zip = models.CharField(max_length=250)
+    zip = models.CharField(max_length=250, default="44600")
     country = models.CharField(max_length=250, default="Nepal")
 
     def __str__(self):
@@ -18,7 +18,7 @@ class Hostel(models.Model):
     }
     hostel_name =  models.CharField(max_length=250)
     hostel_type =  models.CharField(max_length=20, choices=HOSTEL_CHOICE)
-    hostel_phone =  models.CharField(max_length=100)
+    hostel_phone =  models.CharField(max_length=100, null = True, blank=True)
     hostel_mobile = models.CharField(max_length=100)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
     latitude = models.DecimalField(max_digits=10,decimal_places=8, default=0.000000)
