@@ -36,6 +36,6 @@ class Command(BaseCommand):
                 #     additional_location = line[6]
                 # )
 
-                for i in random.randint(0,4):
-                    print("fe")
+                for i in generate_random_int():
+
             # Hostel.objects.filter(additional_location='').update(additional_location=None)

@@ -37,6 +37,7 @@ class Room(models.Model):
     seater_type= models.IntegerField(default=1)
     quantity = models.IntegerField(default=1)
     room_price = models.CharField(max_length=250)
+    available = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' - room'+  str(self.quantity)

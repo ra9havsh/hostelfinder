@@ -129,6 +129,7 @@ def HostelEditView(request, pk):
                         r.seater_type = x['seater_type']
                         r.quantity = x['quantity']
                         r.room_price = x['room_price']
+                        r.available = x['available']
                         r.save()
 
                 room.hostel =hostel
@@ -151,7 +152,8 @@ def HostelEditView(request, pk):
                 room_detail.append({
                     'seater_type':x.seater_type,
                     'quantity':x.seater_type,
-                    'room_price':x.room_price
+                    'room_price':x.room_price,
+                    'available':x.available
                 })
 
             roomDetail_form = RoomDetailForm(initial={'room_detail': json.dumps(room_detail)})
@@ -194,6 +196,7 @@ def formHostel(request,username):
                    r.seater_type=x['seater_type']
                    r.quantity=x['quantity']
                    r.room_price=x['room_price']
+                   r.available=x['available']
                    r.save()
 
             room.hostel =hostel

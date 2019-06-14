@@ -1,21 +1,26 @@
 from django.core.management.base import BaseCommand
-from hostelAdmin.models import Room
+from hostelAdmin.models import Hostel, Room, Fee, Image
+import random
 import csv
 
 
+def generate_random_int():
+    no = random.randint(3, 5)
+    return no * 'a'
+
+def generate_random_quantity_int():
+    no = random.randint(2,3)
+    return no
+
 class Command(BaseCommand):
 
-    def add_arguments(self,parser):
-        parser.add_argument('file_name', type=str, help="hostel detail")
-
     def handle(self,*args,**kwargs):
-        file_name = kwargs['file_name']
-        with open(f'{file_name}.csv','r') as file:
-            csv_reader = csv.reader(file)
-            next(csv_reader)
-            for line in csv_reader :
+        for hostel in Hostel.objects.all() :
+            for i in generate_random_int():
+
+
                 room = Room.objects.create(
-                    hostel
+                    hostel = hostel,
                     seater_type
                     quantity
                     room_price

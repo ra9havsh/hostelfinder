@@ -27,6 +27,7 @@
                     <th>Seater Type</th>
                     <th>Quantity</th>
                     <th>Room Price</th>
+                    <th>Available</th>
                 </thead>
                 <tbody id="room_table">
 
@@ -46,11 +47,12 @@
     <script>
     var arr = [];
 
-    function createJSON(seater_type,quantity,room_price){
+    function createJSON(seater_type,quantity,room_price,available){
         arr.push({
             "seater_type" : seater_type,
             "quantity" : quantity,
             "room_price" : room_price,
+            "available" : available,
         });
 
         return arr;
@@ -64,7 +66,8 @@
              room += '<tr id="room'+ value +'">';
              room += '<td>'+data[value].seater_type+'</td>';
              room += '<td>'+data[value].quantity+'</td>';
-             room += '<td>'+data[value].room_price+
+             room += '<td>'+data[value].room_price+'</td>';
+             room += '<td>'+data[value].available+
               '<button type="button" class="btn btn-danger"  style="margin-left:50px;"><i class="fas fa-trash-alt"></i></button></td>';
              room += '</tr>';
         }
@@ -76,6 +79,7 @@
                 "seater_type" : arr[value].seater_type,
                 "quantity" : arr[value].quantity,
                 "room_price" : arr[value].room_price,
+                "available" : arr[value].available,
             });
         }
 
@@ -87,9 +91,10 @@
             seater_type = $('#seater_type').val();
             quantity = $('#quantity').val();
             room_price = $('#room_price').val();
+            available = $('#available').val();
 
             if(valid()){
-                createJSON(seater_type,quantity,room_price);
+                createJSON(seater_type,quantity,room_price,available);
                 console.log(arr);
                 createTable(arr);
                 $('#room_price').val("");
@@ -115,6 +120,7 @@
             }
         });
 
+        /* for delete */
         $('table').on('click', 'button', function(e){
            id_value = $(this).closest('tr').attr('id');
            index = parseInt(id_value[id_value.length-1]);

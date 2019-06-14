@@ -9,11 +9,11 @@
             <div class="container">
                 <h1>Delete {{ hostel.hostel_name }}?</h1>
 
-                <form method="POST" action="">
+                <form method="POST" action="{% url 'hostelAdmin:hostel_delete' hostel.pk %}">
                 {% csrf_token %}
                 Are you sure you want to delete this post?
                 <input type="submit" value="Yes"/>
-                <a href="{% url 'hostelAdmin:hostel_details' hostel.pk %}">Cancel </a>
+                <a href="{% url 'hostelAdmin:hostel_details' hostel.pk %}">Cancel</a>
                 </form>
             </div>
         {% endif %}
