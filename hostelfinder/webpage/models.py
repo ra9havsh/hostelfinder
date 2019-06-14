@@ -10,7 +10,7 @@ class User(models.Model):
     last_name =  models.CharField(max_length=250)
     user_name =  models.CharField(max_length=250)
     password =  models.CharField(max_length=250)
-    email =  models.EmailField(max_length=250)
+    email =  models.EmailField(max_length=250,null=True,blank=True)
     contact =  models.CharField(max_length=250)
     user_type =  models.CharField(max_length=20, choices=USER_TYPE_CHOICE)
 
@@ -26,7 +26,7 @@ class Student(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
     }
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     institute =  models.CharField(max_length=250)
     gender =  models.CharField(max_length=25, choices= GENDER_CHOICE)
     date_of_birth =  models.DateField()

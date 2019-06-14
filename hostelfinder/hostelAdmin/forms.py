@@ -17,17 +17,6 @@ class HostelForm(ModelForm):
             'additional_location': forms.TextInput(attrs={'style': 'width:250px'}),
         }
 
-# class GeographyForm(ModelForm):
-#     class Meta:
-#         model = Geography
-#         fields = ['location','latitude','longitude','additional']
-#         widgets = {
-#             'location': forms.Select(attrs={'style': 'width:350px'}),
-#             'latitude': forms.TextInput(attrs={'style': 'width:150px'}),
-#             'longitude': forms.TextInput(attrs={'style': 'width:150px'}),
-#             'additional': forms.TextInput(attrs={'style': 'width:250px'}),
-#         }
-
 class RoomForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
