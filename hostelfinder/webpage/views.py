@@ -81,6 +81,29 @@ def homepage(request):
 
 def HostelDetailView(request, pk):
     hostel = get_object_or_404(Hostel,id=pk)
+    rating_hostel = Rating.objects.filter(hostel_id=pk).exists()
+
+    if rating_hostel:
+        total_rating = 0
+        rating_hostel=Rating.objects.filter(hostel_id=pk)
+        for rating in rating_hostel:
+            total_rating = total_rating + rating.rating
+        avg_rating = total_rating/len(rating_hostel)
+
+        if avg_rating<0.5:
+            avg_rating=0
+        elif avg_rating<1.5:
+            avg_rating=1
+        elif avg_rating<2.5:
+            avg_rating=2
+        elif avg_rating<3.5:
+            avg_rating=3
+        elif avg_rating<4.5:
+            avg_rating=4
+        else:
+            avg_rating=5
+    else:
+        avg_rating = 0
 
     if 'user_id' in request.session:
         user_id = request.session['user_id']
@@ -89,15 +112,17 @@ def HostelDetailView(request, pk):
         if user.user_type=='O':
             hostel_owner = get_object_or_404(HostelOwner,user_id=user_id,hostel_id=pk)
 
-        rating = Rating.objects.filter(user_id=user_id,hostel_id=pk).exists()
+        rating_user = Rating.objects.filter(user_id=user_id,hostel_id=pk).exists()
 
-        if rating:
-            rating = get_object_or_404(Rating,user_id=user_id, hostel_id=pk)
-            args = {'hostel': hostel, 'username': user.user_name,'rating':rating.rating}
+        if rating_user:
+            rating_user = get_object_or_404(Rating,user_id=user_id, hostel_id=pk)
+            args = {'hostel': hostel, 'username': user.user_name,'rating_user':rating_user.rating}
         else:
             args = {'hostel':hostel,'username':user.user_name}
     else:
         args = {'hostel':hostel}
+        
+    args['avg_rating'] = avg_rating
     return render(request,'webpage/hostel_detail.html',args)
 
 def HostelEditView(request, pk):

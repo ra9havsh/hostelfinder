@@ -73,11 +73,13 @@
                 <iframe class="col-sm-7" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6074288719055!2d85.33026931443418!3d27.698525732487727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzU0LjciTiA4NcKwMTknNTYuOSJF!5e0!3m2!1sen!2snp!4v1559390573744!5m2!1sen!2snp" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
                 <img class="col-sm-5 profile-img" src="{% static 'webpage/images/la.jpg' %}" alt="profile image">
                 <div class="hotel-rating" style="position:absolute; bottom:10px; right:10px;">
-                    <span class="fa fa-star rated" data-rating="1"></span>
-                    <span class="fa fa-star rated" data-rating="2"></span>
-                    <span class="fa fa-star" data-rating="3"></span>
-                    <span class="fa fa-star" data-rating="4"></span>
-                    <span class="fa fa-star" data-rating="5"></span>
+                    {% for i in '12345' %}
+                        {% if forloop.counter <= avg_rating %}
+                            <span class="fa fa-star rated" data-rating="{{ forloop.counter }}"></span>
+                        {% else %}
+                            <span class="fa fa-star" data-rating="{{ forloop.counter }}"></span>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="infobox">
@@ -126,10 +128,10 @@
             {% if username %}
             <div class="row col-sm-12">
                 <div class="col-sm-6 your-hotel-rating">
-                {% if rating or username %}
+                {% if rating_user or username %}
                     <h6>Your Rating: </h6>
                     {% for i in '12345' %}
-                        {% if forloop.counter <= rating %}
+                        {% if forloop.counter <= rating_user %}
                             <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star rated" data-rating="{{ forloop.counter }}"></span></a>
                         {% else %}
                             <a href="{% url 'webpage:rate' hostel.pk forloop.counter %}" ><span class="fa fa-star" data-rating="{{ forloop.counter }}"></span></a>
