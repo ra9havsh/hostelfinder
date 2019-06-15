@@ -38,6 +38,36 @@ class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
     rating = models.IntegerField()
+    avg = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.user) + ' - ' + str(self.hostel) + ' - ' + str(self.rating)
+
+    # def save(self, *args, **kwargs):
+    #     hostel = Hostel.objects.get(id=self.hostel_id)
+    #
+    #     if Rating.objects.filter(hostel=hostel).exists():
+    #         total_rating = 0
+    #         rating_hostel = Rating.objects.filter(hostel=hostel)
+    #         for rating in rating_hostel:
+    #             total_rating = total_rating + rating.rating
+    #         avg_rating = total_rating / len(rating_hostel)
+    #
+    #         if avg_rating < 0.5:
+    #             avg_rating = 0
+    #         elif avg_rating < 1.5:
+    #             avg_rating = 1
+    #         elif avg_rating < 2.5:
+    #             avg_rating = 2
+    #         elif avg_rating < 3.5:
+    #             avg_rating = 3
+    #         elif avg_rating < 4.5:
+    #             avg_rating = 4
+    #         else:
+    #             avg_rating = 5
+    #     else:
+    #         avg_rating = 0
+    #     print(avg_rating)
+    #     Rating.objects.filter(hostel=hostel).update(avg=avg_rating)
+    #     self.avg = avg_rating
+    #     super(Rating, self).save(*args, **kwargs)

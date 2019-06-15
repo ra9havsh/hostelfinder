@@ -81,29 +81,29 @@ def homepage(request):
 
 def HostelDetailView(request, pk):
     hostel = get_object_or_404(Hostel,id=pk)
-    rating_hostel = Rating.objects.filter(hostel_id=pk).exists()
-
-    if rating_hostel:
-        total_rating = 0
-        rating_hostel=Rating.objects.filter(hostel_id=pk)
-        for rating in rating_hostel:
-            total_rating = total_rating + rating.rating
-        avg_rating = total_rating/len(rating_hostel)
-
-        if avg_rating<0.5:
-            avg_rating=0
-        elif avg_rating<1.5:
-            avg_rating=1
-        elif avg_rating<2.5:
-            avg_rating=2
-        elif avg_rating<3.5:
-            avg_rating=3
-        elif avg_rating<4.5:
-            avg_rating=4
-        else:
-            avg_rating=5
-    else:
-        avg_rating = 0
+    # rating_hostel = Rating.objects.filter(hostel_id=pk).exists()
+    #
+    # if rating_hostel:
+    #     total_rating = 0
+    #     rating_hostel=Rating.objects.filter(hostel_id=pk)
+    #     for rating in rating_hostel:
+    #         total_rating = total_rating + rating.rating
+    #     avg_rating = total_rating/len(rating_hostel)
+    #
+    #     if avg_rating<0.5:
+    #         avg_rating=0
+    #     elif avg_rating<1.5:
+    #         avg_rating=1
+    #     elif avg_rating<2.5:
+    #         avg_rating=2
+    #     elif avg_rating<3.5:
+    #         avg_rating=3
+    #     elif avg_rating<4.5:
+    #         avg_rating=4
+    #     else:
+    #         avg_rating=5
+    # else:
+    #     avg_rating = 0
 
     if 'user_id' in request.session:
         user_id = request.session['user_id']
@@ -121,8 +121,8 @@ def HostelDetailView(request, pk):
             args = {'hostel':hostel,'username':user.user_name}
     else:
         args = {'hostel':hostel}
-        
-    args['avg_rating'] = avg_rating
+
+    # args['avg_rating'] = avg_rating
     return render(request,'webpage/hostel_detail.html',args)
 
 def HostelEditView(request, pk):
@@ -394,9 +394,34 @@ def rating(request,pk,rate):
         user_id = request.session['user_id']
         user = User.objects.get(id=user_id)
         rating = Rating.objects.filter(user=user,hostel=hostel).exists()
+
         if not rating:
             rating = Rating.objects.create(user=user,hostel=hostel,rating=rate)
         else:
             rating = Rating.objects.filter(user=user,hostel=hostel).update(rating=rate)
+
+        if Rating.objects.filter(hostel=hostel).exists():
+            total_rating = 0
+            rating_hostel = Rating.objects.filter(hostel=hostel)
+            for rating in rating_hostel:
+                total_rating = total_rating + rating.rating
+            avg_rating = total_rating / len(rating_hostel)
+
+            if avg_rating < 0.5:
+                avg_rating = 0
+            elif avg_rating < 1.5:
+                avg_rating = 1
+            elif avg_rating < 2.5:
+                avg_rating = 2
+            elif avg_rating < 3.5:
+                avg_rating = 3
+            elif avg_rating < 4.5:
+                avg_rating = 4
+            else:
+                avg_rating = 5
+        else:
+            avg_rating = 0
+
+        Rating.objects.filter(hostel=hostel).update(avg=avg_rating)
 
     return redirect("webpage:hostel_details",pk)
