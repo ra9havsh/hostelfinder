@@ -2,6 +2,7 @@ from django.forms import  ModelForm
 from django import forms
 from .models import User, HostelOwner, Student
 from hostelAdmin.models import Location, Hostel
+import datetime
 
 class RegistrationForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'style': 'width:300px;'}))
@@ -54,6 +55,8 @@ class RegistrationForm(ModelForm):
                 if  pwd.isdigit():
                     raise forms.ValidationError("password should not contain all numeric.")
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class StudentForm(ModelForm):
     class Meta:
@@ -61,7 +64,7 @@ class StudentForm(ModelForm):
         fields = ['institute','gender','date_of_birth']
         widgets = {
             'institute': forms.TextInput(attrs={'style': 'width:300px;'}),
-            'date_of_birth': forms.DateInput(format="%m/%d/%Y",attrs={'style': 'width:145px;'})
+            'date_of_birth': DateInput(format = '%m/%d/%y',attrs={'style': 'width:150px;'})
         }
 
 class LogInForm(forms.Form):
