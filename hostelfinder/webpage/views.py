@@ -7,6 +7,16 @@ from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, Ima
 from webpage.models import User, HostelOwner, Student, Rating
 import json
 
+def popular_hostel():
+    rating = Rating.objects.values_list('hostel','avg').order_by('-avg').distinct()[:9]
+    hostel =[]
+    for rating in rating:
+        hostel.append(int(rating[0]))
+
+    avg_hostel = Hostel.objects.filter(id__in=hostel)
+    print(avg_hostel)
+    return avg_hostel
+
 def log_in_session(request):
     if 'user_id' in request.session:
         user = get_object_or_404(User,id = request.session['user_id'])
@@ -24,6 +34,7 @@ def log_out(request):
 def homepage(request):
     if 'user_id' in request.session:
         return log_in_session(request)
+
 
     if request.method=="GET":
         search_form = SearchForm(request.GET)
@@ -76,7 +87,7 @@ def homepage(request):
 
     args = {}
     args["search_form"] = search_form
-
+    args['avg_hostels'] = popular_hostel()
     return render(request,'webpage/home_page.html',args)
 
 def HostelDetailView(request, pk):
@@ -384,6 +395,7 @@ def user_student(request,user_id):
         args["search_form"] = search_form
         args["username"] = user.user_name
         args["user_id"] = user_id
+        args['avg_hostels'] = popular_hostel()
         return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)
@@ -406,21 +418,8 @@ def rating(request,pk,rate):
             for rating in rating_hostel:
                 total_rating = total_rating + rating.rating
             avg_rating = total_rating / len(rating_hostel)
-
-            if avg_rating < 0.5:
-                avg_rating = 0
-            elif avg_rating < 1.5:
-                avg_rating = 1
-            elif avg_rating < 2.5:
-                avg_rating = 2
-            elif avg_rating < 3.5:
-                avg_rating = 3
-            elif avg_rating < 4.5:
-                avg_rating = 4
-            else:
-                avg_rating = 5
         else:
-            avg_rating = 0
+            avg_rating = 0.0
 
         Rating.objects.filter(hostel=hostel).update(avg=avg_rating)
 
