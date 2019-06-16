@@ -125,4 +125,44 @@
         {% endif %}
     </div>
 </div>
+<hr class="seperator">
+{% if similar_hostels %}
+    <div class="container-fluid mid-ban">
+        <div class="header">
+            <h4>Recommended</h4>
+            <p>|</p>
+            <h6>Similar Hostels</h6>
+        </div>
+        <div class="recommends">
+                {% for h in similar_hostels %}
+                <div class="col-lg-4 col-md-6 col-sm-12 hostel-box">
+                    <div class="hostel-box-content">
+                        <div class="image-box">
+                            <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
+                        </div>
+                        <div class="hostel-content">
+                            <h4>{{ h.hostel_name }}</h4>
+                            <h6>{{ h.location.street }}, {{ h.location.district }}</h6>
+                            <hr>
+                            <div class="rating-star">
+                                {% with rating=h.rating_set.first %}
+                                    {% for i in '12345' %}
+                                        {% if forloop.counter <= rating.avg %}
+                                            <span class="fa fa-star checked" data-rating="{{ forloop.counter }}"></span>
+                                        {% else %}
+                                            <span class="fa fa-star" data-rating="{{ forloop.counter }}"></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+                            <a href="{% url 'webpage:hostel_details' h.pk %}">
+                                <button type="button" class="btn btn-success">View Detail</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
