@@ -4,7 +4,6 @@ from webpage.models import User, HostelOwner, Rating
 import csv
 import random
 
-
 def popular_hostel():
     rating = Rating.objects.values_list('hostel','avg').order_by('-avg').distinct()
     hostel =[]

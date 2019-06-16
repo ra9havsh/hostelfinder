@@ -14,7 +14,7 @@ def popular_hostel():
         hostel.append(int(rating[0]))
 
     avg_hostel = Hostel.objects.filter(id__in=hostel)
-    print(avg_hostel)
+    # print(avg_hostel)
     return avg_hostel
 
 def log_in_session(request):
