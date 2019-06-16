@@ -3,13 +3,27 @@ from hostelAdmin.models import Hostel, Location
 from webpage.models import User, Student, Rating
 import csv
 import random
+import math
+
+def evaluate_cosine_similarity(user,similar_user):
+    numerator = 0
+    user_square_sum = 0
+    similar_user_square_sum = 0
+
+    for i in range(len(user)-1):
+        numerator = numerator + (user[i]*similar_user[i])
+        user_square_sum = user_square_sum + (user[i]*user[i])
+        similar_user_square_sum = similar_user_square_sum + (user[i]*user[i])
+
+    denominator = math.sqrt(user_square_sum) + math.sqrt(similar_user_square_sum)
+    similarity = numerator/denominator
+    print(similarity)
 
 
 def similar_hostel(user_id):
     user_rated_hostel = []
     similar_rating_student_id = []
     similar_student_rated_hostels = []
-    user = []
     student = Student.objects.get(user_id=user_id)
     rating = Rating.objects.filter(user=student.user_id)
 
@@ -40,6 +54,7 @@ def similar_hostel(user_id):
 
     #create user-item matrix for both active user and similar users
     similar_user =  [[0] * len(similar_student_rated_hostels) for i in range(len(similar_rating_student_id))]
+    user = []
 
     for i,similar_user_id in enumerate(similar_rating_student_id):
         for j,hostel_id in enumerate(similar_student_rated_hostels):
@@ -59,9 +74,12 @@ def similar_hostel(user_id):
             rate = 0
         user.append(rate)
 
+    #calculating similarity through cosine similarity
+    cosine_similarity = []
 
-    print(similar_user[0][19])
-    print(user)
+    for i in range(len(similar_rating_student_id)-1):
+        evaluate_cosine_similarity(user,similar_user[i])
+        cosine_similarity.append(0)
 
 class Command(BaseCommand):
 
