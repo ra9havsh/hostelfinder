@@ -142,10 +142,10 @@
                 {% endif %}
                 </div>
                 <div class="col-sm-6">
-                    {% if hostel.hostelowner_set.first %}
-                    <a href="{% url 'webpage:hostel_edit' hostel.pk %}" style="position:absolute;right:0;bottom:0;">
-                        <button type="button" class="btn btn-info"><i class="far fa-edit"></i>Edit Details</button>
-                    </a>
+                    {% if hostel_owner %}
+                        <a href="{% url 'webpage:hostel_edit' hostel.pk %}" style="position:absolute;right:0;bottom:0;">
+                            <button type="button" class="btn btn-info"><i class="far fa-edit"></i>Edit Details</button>
+                        </a>
                     {% endif %}
                 </div>
             </div>

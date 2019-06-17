@@ -157,6 +157,7 @@ def HostelDeleteView(request,pk):
     hostel = get_object_or_404(Hostel, id=pk)
     try:
         if request.method == "POST" and request.user.is_authenticated:
+            print("fa")
             hostel.delete()
             messages.success(request, "Post successfully deleted!")
             return redirect("hostelAdmin:hostels")

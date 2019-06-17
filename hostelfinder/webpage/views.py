@@ -221,7 +221,6 @@ def homepage(request):
     return render(request,'webpage/home_page.html',args)
 
 def HostelDetailView(request, pk):
-    hostel = get_object_or_404(Hostel,id=pk)
     # rating_hostel = Rating.objects.filter(hostel_id=pk).exists()
     #
     # if rating_hostel:
@@ -245,13 +244,11 @@ def HostelDetailView(request, pk):
     #         avg_rating=5
     # else:
     #     avg_rating = 0
-
+    hostel = get_object_or_404(Hostel,id=pk)
+    args = {}
     if 'user_id' in request.session:
         user_id = request.session['user_id']
         user = get_object_or_404(User, id=user_id)
-
-        if user.user_type=='O':
-            hostel_owner = get_object_or_404(HostelOwner,user_id=user_id,hostel_id=pk)
 
         rating_user = Rating.objects.filter(user_id=user_id,hostel_id=pk).exists()
 
@@ -260,6 +257,9 @@ def HostelDetailView(request, pk):
             args = {'hostel': hostel, 'username': user.user_name,'rating_user':rating_user.rating}
         else:
             args = {'hostel':hostel,'username':user.user_name}
+
+        if user.user_type=='O':
+            args['hostel_owner']=True
     else:
         args = {'hostel':hostel}
 
