@@ -526,7 +526,14 @@ def user_student(request,user_id):
         args["username"] = user.user_name
         args["user_id"] = user_id
         args['avg_hostels'] = popular_hostel()
-        args['similar_hostels'] = similar_hostel(user_id)
+
+        student = Student.objects.get(user_id=user_id)
+        if student.gender == 'M':
+            hostel_type = 'B'
+        else:
+            hostel_type = 'G'
+        if Rating.objects.filter(user_id=user_id,hostel__hostel_type=hostel_type).exists() :
+            args['similar_hostels'] = similar_hostel(user_id)
         return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)

@@ -105,37 +105,41 @@ def similar_hostel(user_id):
             rate = 0
         user.append(rate)
 
+    print(user_rated_hostel)
+    print(user)
+    print(similar_user)
+
     #calculating similarity through cosine similarity
-    cosine_similarity = []
-
-    for i in range(len(similar_rating_user_id)):
-        similarity = evaluate_cosine_similarity(user,similar_user[i])
-        cosine_similarity.append(similarity)
-
-    #predicting the rating for the each item of active user
-    predictate_rating = predict_user_item_rating(user,similar_user,cosine_similarity)
-
-    #now finding the top predictate hostel rating
-    predictate_similar_hostel = []
-    hostels = []
-    for j, hostel_id in enumerate(similar_user_rated_hostels):
-        predictate_similar_hostel.append((hostel_id,predictate_rating[j]))
-    predictate_similar_hostel.sort(key=lambda x  : x[1],reverse=True)
-
-    for p in predictate_similar_hostel:
-        hostels.append(p[0])
-
-    hostel = []
-    for h in hostels:
-        hostel.append( Hostel.objects.get(id=h))
-
-    for h in hostel:
-        print(h)
-
-    return hostel
+    # cosine_similarity = []
+    #
+    # for i in range(len(similar_rating_user_id)):
+    #     similarity = evaluate_cosine_similarity(user,similar_user[i])
+    #     cosine_similarity.append(similarity)
+    #
+    # #predicting the rating for the each item of active user
+    # predictate_rating = predict_user_item_rating(user,similar_user,cosine_similarity)
+    #
+    # #now finding the top predictate hostel rating
+    # predictate_similar_hostel = []
+    # hostels = []
+    # for j, hostel_id in enumerate(similar_user_rated_hostels):
+    #     predictate_similar_hostel.append((hostel_id,predictate_rating[j]))
+    # predictate_similar_hostel.sort(key=lambda x  : x[1],reverse=True)
+    #
+    # for p in predictate_similar_hostel:
+    #     hostels.append(p[0])
+    #
+    # hostel = []
+    # for h in hostels:
+    #     hostel.append( Hostel.objects.get(id=h))
+    #
+    # for h in hostel:
+    #     print(h)
+    #
+    # return hostel
 
 class Command(BaseCommand):
 
     def handle(self,*args,**kwargs):
-        similar_hostel(4013)
+        similar_hostel(3067)
 
