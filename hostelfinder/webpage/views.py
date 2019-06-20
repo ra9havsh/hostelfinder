@@ -7,6 +7,16 @@ from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, Ima
 from webpage.models import User, HostelOwner, Student, Rating
 import json
 import math
+from django.conf import settings
+import os
+
+def near_hostel():
+    file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
+    json_file = open(file)
+    results = json.load(json_file)
+    json_file.close()
+    location  = results['results'][0]['geometry']['location']
+    print(location['lat'])
 
 def popular_hostel():
     rating = Rating.objects.values_list('hostel','avg').order_by('-avg').distinct()[:9]
@@ -142,8 +152,8 @@ def similar_hostel(user_id):
     for h in hostels:
         hostel.append( Hostel.objects.get(id=h))
 
-    for h in hostel:
-        print(h)
+    # for h in hostel:
+    #     print(h)
 
     return hostel[:12]
 
@@ -525,8 +535,11 @@ def user_student(request,user_id):
         args["search_form"] = search_form
         args["username"] = user.user_name
         args["user_id"] = user_id
+
+        # for popular hostel
         args['avg_hostels'] = popular_hostel()
 
+        # for similar hostel
         student = Student.objects.get(user_id=user_id)
         if student.gender == 'M':
             hostel_type = 'B'
@@ -534,6 +547,10 @@ def user_student(request,user_id):
             hostel_type = 'G'
         if Rating.objects.filter(user_id=user_id,hostel__hostel_type=hostel_type).exists() :
             args['similar_hostels'] = similar_hostel(user_id)
+
+        # for near hostels
+        near_hostel()
+
         return render(request, 'webpage/home_page.html',args)
     else:
         raise Http404('Page not found with user Id : ' + user_id)

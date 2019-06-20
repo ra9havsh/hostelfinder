@@ -1,0 +1,52 @@
+{   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Kalika Marg",
+               "short_name" : "Kalika Marg",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Kathmandu",
+               "short_name" : "Kathmandu",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Nepal",
+               "short_name" : "NP",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "44600",
+               "short_name" : "44600",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Dilli Bazaar, Kalika Marg, Kathmandu 44600, Nepal",
+         "geometry" : {
+            "location" : {
+               "lat" : 27.7037802,
+               "lng" : 85.32512469999999
+            },
+            "location_type" : "GEOMETRIC_CENTER",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 27.7051291802915,
+                  "lng" : 85.3264736802915
+               },
+               "southwest" : {
+                  "lat" : 27.70243121970849,
+                  "lng" : 85.32377571970848
+               }
+            }
+         },
+         "place_id" : "ChIJKxDNxqcZ6zkRytWd6ECWBHg",
+         "plus_code" : {
+            "compound_code" : "P83G+G2 Kathmandu, Nepal",
+            "global_code" : "7MV7P83G+G2"
+         },
+         "types" : [ "establishment", "point_of_interest", "school", "university" ]
+      }
+   ],
+   "status" : "OK"
+}
