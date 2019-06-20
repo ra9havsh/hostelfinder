@@ -3,12 +3,15 @@ from hostelAdmin.models import Hostel, Location
 from webpage.models import User, Student
 import csv
 import random
+import requests
 
 
 def nearest_hostel():
-    student = Student.objects.values_list('institute').distinct()
-    for student in student:
-        print(student[0])
+    url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    params = {'sensor': 'false', 'address': 'Trinity International College, kathmandu','key':'AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY'}
+    r = requests.get(url, params=params)
+    results = r.json()
+    print(results)
 
 class Command(BaseCommand):
 

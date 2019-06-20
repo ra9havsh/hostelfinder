@@ -7,16 +7,57 @@ from hostelAdmin.forms import HostelForm, RoomForm, FeeForm, RoomDetailForm, Ima
 from webpage.models import User, HostelOwner, Student, Rating
 import json
 import math
+import requests
 from django.conf import settings
 import os
 
-def near_hostel():
-    file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
-    json_file = open(file)
-    results = json.load(json_file)
-    json_file.close()
+def euclidean(hostel,latitude,longitude):
+    R = 6372800  # Earth radius in meters
+    diff_latitude = latitude-float(hostel.latitude)
+    diff_longitude = longitude-float(hostel.longitude)
+
+    phi1, phi2 = math.radians(hostel.latitude), math.radians(latitude)
+    dphi = math.radians(diff_latitude)
+    dlambda = math.radians(diff_longitude)
+
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+
+    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    # diff_latitude = float(hostel.latitude)-latitude
+    # diff_longitude = float(hostel.longitude)-longitude
+    # e = math.sqrt((diff_latitude*diff_latitude) + (diff_longitude*diff_longitude))
+    # print(f'{hav}-{hostel.location.street}-{hostel.hostel_name}')
+
+def near_hostel(student_institute):
+    # file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
+    # json_file = open(file)
+    # results = json.load(url)
+    # json_file.close()
+
+    #get json response from google geocoder api using url
+    url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    institute = student_institute + ', Kathmandu'
+    params = {'sensor': 'false', 'address': institute,'key':'AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY'}
+    r = requests.get(url, params=params)
+    results = r.json()
     location  = results['results'][0]['geometry']['location']
-    print(location['lat'])
+    latitude=location['lat']
+    longitude=location['lng']
+    near_hostel = []
+
+    for hostel in Hostel.objects.all():
+        e = euclidean(hostel, latitude, longitude)
+        if e < 1000:
+            near_hostel.append([hostel,e])
+
+    if len(near_hostel):
+        near_hostel.sort(key=lambda x: x[1])
+        hostel = []
+        for h in near_hostel:
+            hostel.append(h[0])
+        return hostel[:12]
+    else:
+        return 0
 
 def popular_hostel():
     rating = Rating.objects.values_list('hostel','avg').order_by('-avg').distinct()[:9]
@@ -549,7 +590,9 @@ def user_student(request,user_id):
             args['similar_hostels'] = similar_hostel(user_id)
 
         # for near hostels
-        near_hostel()
+        student_institute = Student.objects.get(user_id=user_id).institute
+        if near_hostel(student_institute):
+            args['near_hostels']=near_hostel(student_institute)
 
         return render(request, 'webpage/home_page.html',args)
     else:
