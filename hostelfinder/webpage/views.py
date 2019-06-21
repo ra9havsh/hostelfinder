@@ -37,7 +37,7 @@ def near_hostel(student_institute):
     #get json response from google geocoder api using url
     url = 'https://maps.googleapis.com/maps/api/geocode/json'
     institute = student_institute + ', Kathmandu'
-    params = {'sensor': 'false', 'address': institute,'key':'AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY'}
+    params = {'sensor': 'false', 'address': institute}
     r = requests.get(url, params=params)
     results = r.json()
     location  = results['results'][0]['geometry']['location']
