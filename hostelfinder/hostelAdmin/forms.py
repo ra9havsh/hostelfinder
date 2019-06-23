@@ -42,7 +42,7 @@ class FeeForm(ModelForm):
 class ImageForm(ModelForm):
     class Meta:
         model = Image
-        fields = ['profile_image','image1','image2','image3','image4','image5']
+        fields = ['profile_image','hostel','room','kitchen']
 
 
 class RoomDetailForm(forms.Form):

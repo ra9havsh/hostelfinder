@@ -54,11 +54,9 @@ class Fee(models.Model):
 class Image(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
     profile_image = models.FileField(null=True,blank=True)
-    image1 = models.FileField(null=True,blank=True)
-    image2 = models.FileField(null=True,blank=True)
-    image3 = models.FileField(null=True,blank=True)
-    image4 = models.FileField(null=True,blank=True)
-    image5 = models.FileField(null=True,blank=True)
+    hostel_image = models.FileField(null=True,blank=True)
+    kitchen = models.FileField(null=True,blank=True)
+    room = models.FileField(null=True,blank=True)
 
     def __str__(self):
         return str(self.hostel.pk)+' : '+self.hostel.hostel_name + ' images'

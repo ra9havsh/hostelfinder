@@ -1,22 +1,22 @@
-{% extends 'webpage/nav.html' %}
-{% load static %}
-{% block head %}
 <style>
+    .carousel{
+        height: 250px !important;
+    }
     /* Make the image fully responsive */
     .carousel-inner img {
-        width: 100%;
-        height: 100%;
+        width:100%;
+        height:100%;
+        object-fit: cover;
     }
     .text-block {
-      background-color: green;
-      color: white;
-      opacity:0.5;
-      position:absolute;
-      top: 50%;
-      left: 50%;
-      width:100%;
-      text-align:center;
-      transform: translate(-50%, -50%);
+        background-color: green;
+        color: white;
+        opacity:0.5;
+        text-align:center;
+        font-weight: bold;
+        position:absolute;
+        width:100%;
+        top: 78%;
     }
     .infobox{
         background-color: #FFA500FF;
@@ -45,7 +45,7 @@
     td{
         vertical-align: top;
     }
-    .profile-img{
+    .profile-img-box{
         padding-left: 0 !important;
         padding-right: 0 !important;
         margin-right: 0 !important;
@@ -54,6 +54,7 @@
         border:6px solid #FFA500A6;
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
+        object-fit: cover;
     }
     iframe{
         padding-left:0 !important;
@@ -64,6 +65,9 @@
     .your-hotel-rating .fa-star{color: black;}
     .your-hotel-rating .rated{color: orange;}
 </style>
+{% extends 'webpage/nav.html' %}
+{% load static %}
+{% block head %}
 {% endblock %}
 {% block body %}
 <div class="container-fluid top-ban">
@@ -71,7 +75,9 @@
         <div class="col-sm-12 col-md-4">
             <div class="col-sm-12 row" style="margin: 0 !important; padding:0 !important;">
                 <iframe class="col-sm-7" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6074288719055!2d85.33026931443418!3d27.698525732487727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzU0LjciTiA4NcKwMTknNTYuOSJF!5e0!3m2!1sen!2snp!4v1559390573744!5m2!1sen!2snp" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
-                <img class="col-sm-5 profile-img" src="{% static 'webpage/images/la.jpg' %}" alt="profile image">
+                {% with image=hostel.image_set.first %}
+                        <img class="col-sm-5 profile-img-box" src="{{ image.hostel_image.url }}" alt="profile image">
+                {% endwith %}
                 <div class="hotel-rating" style="position:absolute; bottom:10px; right:10px;">
                     {% with rating=hostel.rating_set.first %}
                         {% for i in '12345' %}
@@ -161,26 +167,28 @@
                     <li data-target="#demo" data-slide-to="1"></li>
                     <li data-target="#demo" data-slide-to="2"></li>
                   </ul>
+                {% with image=hostel.image_set.first %}
                   <div class="carousel-inner">
                     <div class="carousel-item active">
-                      <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
-                      <div class="text-block">
-                        <p>Front View</p>
-                      </div>
+                        <div class="text-block">
+                            <p>Hostel</p>
+                        </div>
+                        <img src="{{ image.hostel_image.url }}" alt="Hostel">
                     </div>
                     <div class="carousel-item">
-                      <img src="{% static 'webpage/images/ny.jpg' %}" alt="Chicago" >
-                      <div class="text-block">
-                        <p>Bedroom</p>
-                      </div>
+                        <div class="text-block">
+                            <p>Kitchen</p>
+                        </div>
+                        <img src="{{ image.kitchen.url }}" alt="kitchen" >
                     </div>
                     <div class="carousel-item">
-                      <img src="{% static 'webpage/images/chicago.jpg' %}" alt="New York" >
-                      <div class="text-block">
-                        <p>Kitchen</p>
-                      </div>
+                        <div class="text-block">
+                            <p>Bedroom</p>
+                        </div>
+                        <img src="{{ image.room.url }}" alt="bedroom" >
                     </div>
                   </div>
+                {% endwith %}
                   <a class="carousel-control-prev" href="#demo" data-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                   </a>
