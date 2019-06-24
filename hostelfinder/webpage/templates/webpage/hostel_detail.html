@@ -173,19 +173,19 @@
                         <div class="text-block">
                             <p>Hostel</p>
                         </div>
-                        <img src="{{ image.hostel_image.url }}" alt="Hostel">
+                        <img src="{% if image.hostel_image %}{{ image.hostel_image.url }}{% endif %}" alt="Hostel">
                     </div>
                     <div class="carousel-item">
                         <div class="text-block">
                             <p>Kitchen</p>
                         </div>
-                        <img src="{{ image.kitchen.url }}" alt="kitchen" >
+                        <img src="{% if image.kitchen %}{{image.kitchen.url}}{% endif %}" alt="kitchen" >
                     </div>
                     <div class="carousel-item">
                         <div class="text-block">
                             <p>Bedroom</p>
                         </div>
-                        <img src="{{ image.room.url }}" alt="bedroom" >
+                        <img src="{% if image.room %}{{ image.room.url }}{% endif %}" alt="bedroom" >
                     </div>
                   </div>
                 {% endwith %}

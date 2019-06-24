@@ -9,7 +9,7 @@ class Location(models.Model):
     country = models.CharField(max_length=250, default="Nepal")
 
     def __str__(self):
-        return self.district + ' - ' + self.street
+        return self.street + ' - ' + self.district
 
 class Hostel(models.Model):
     HOSTEL_CHOICE = {

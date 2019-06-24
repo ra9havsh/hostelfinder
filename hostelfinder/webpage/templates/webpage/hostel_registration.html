@@ -3,10 +3,23 @@
 {% load bootstrap4 %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'webpage/hostel_form.css' %}">
+    <style>
+        .form-header{
+            text-transform:uppercase;
+            margin-bottom: 20px;
+            border: 1px solid grey;
+        }
+        .form-header h3{
+            text-align: center;
+        }
+    </style>
 {% endblock %}
 {% block body %}
 <!--<h5 class="col-sm-12" style="margin-top: 60px;">You are first time user, so please you need to register your hostel too.....</h5>-->
 <div class="container hostel-form">
+    <div class="col-sm-12 form-header">
+        <h3>Add Hostel Details</h3>
+    </div>
     <form method="POST" class="form" enctype="multipart/form-data" action="{% url 'webpage:user_hostel_owner' user_id %}">
         {% csrf_token %}
         {% bootstrap_form args.hostel_form %}

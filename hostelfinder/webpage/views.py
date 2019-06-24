@@ -320,6 +320,7 @@ def HostelDetailView(request, pk):
 def HostelEditView(request, pk):
     if 'user_id' in request.session:
         user_id = request.session['user_id']
+        user = get_object_or_404(User, id=user_id)
         hostel_owner = get_object_or_404(HostelOwner,user_id=user_id,hostel_id=pk)
         if request.method == "POST":
             hostel_form = HostelForm(request.POST,instance=Hostel.objects.get(id=pk))
@@ -385,7 +386,7 @@ def HostelEditView(request, pk):
         args['roomDetail_form'] = roomDetail_form
         args['image_form'] = image_form
         args['hostel'] = Hostel.objects.get(id=pk)
-
+        args['username'] = user.user_name
         return render(request,'webpage/hostel_edit.html',args)
 
 def formHostel(request,username):
