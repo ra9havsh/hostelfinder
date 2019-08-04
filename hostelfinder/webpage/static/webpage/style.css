@@ -292,7 +292,7 @@
 .hostel-box button{
     position:absolute;
     right: 25px;
-    bottom: 30px;
+    bottom: 20px;
     font-weight: bold;
     font-size: 0.8em;
 }
@@ -300,9 +300,9 @@
 
 /*for star-rating of recommend*/
 .rating-star{
-    position: relative;
-    right: 0;
-    top: 30px;
+    position: absolute;
+    right: 145px;
+    top: 160px;
     display:inline-flex;
     font-size:0.8em;
 }
