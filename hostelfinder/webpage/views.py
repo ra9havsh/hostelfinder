@@ -212,6 +212,32 @@ def log_out(request):
         request.session.flush()
         return redirect("webpage:homepage")
 
+def search_bar(request):
+    search_value = request.GET.get('search_value')
+    print(search_value)
+
+    searched= False
+    hostel = Hostel.objects.all()
+
+    if search_value:
+        hostel = hostel.filter(hostel_name__icontains=search_value)
+        searched = True
+
+    if searched:
+        paginator = Paginator(hostel, 18)  # Show 18 contacts per page
+        page = request.GET.get('page')
+        hostels = paginator.get_page(page)
+
+        if 'user_id' in request.session:
+            user_id = request.session['user_id']
+            user = get_object_or_404(User, id=user_id)
+            return render(request, 'webpage/search_result.html', {'hostels': hostels, 'username': user.user_name})
+        else:
+            return render(request, 'webpage/search_result.html', {'hostels': hostels})
+
+    else:
+        return redirect("webpage:homepage")
+
 def homepage(request):
     if 'user_id' in request.session:
         return log_in_session(request)

@@ -22,10 +22,35 @@
                 <span class="navbar-brand logo">HOSTEL FINDER</span>
             </div>
             <div class="logger">
-                <div class="searchbar">
-                  <input class="search_input" type="text" name="" placeholder="Search...">
-                  <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-                </div>
+
+                <form class="search-bar-form"  method="GET" action="{% url 'webpage:search_bar'%}" onsubmit="return validate_search_bar();" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="searchbar"">
+                        <input class="search_input" type="text" name="search_value" id="search_value" placeholder="Search...">
+                        <input type="submit" hidden="hidden" id="submit_search">
+                        <a href="#" class="search_icon" id="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+                    <script>
+                        function validate_search_bar(){
+                            var search = document.getElementById("search_value").value;
+
+                            if(search==""){
+                                alert("please enter the text to search");
+                                return false;
+                            }
+
+                            return true;
+                        }
+
+
+                        var search_icon = document.getElementById("search_icon");
+
+                        search_icon.addEventListener('click',function(){
+                            document.getElementById("submit_search").click();
+                        });
+                    </script>
+                </form>
+
                 {% if username %}
                 <span style="position:relative;top:3px;">Welcome {{username}}</span>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'webpage:logout' %}" style="font-weight:bold;">Log Out</a>
                 {% else %}

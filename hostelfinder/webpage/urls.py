@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^register_form/(?P<user_type>[a-zA-Z_]+)/$', views.register_form_view, name='register_form'),
     url(r'^login/', views.login_form_view, name='login'),
     url(r'^logout/', views.log_out, name='logout'),
+    url(r'^search_bar/', views.search_bar, name='search_bar'),
     url(r'^user_page/hostel_owner/(?P<user_id>[0-9]+)/$', views.user_hostel_owner, name='user_hostel_owner'),
     url(r'^user_page/student/(?P<user_id>[0-9]+)/$', views.user_student, name='user_student'),
 ]
