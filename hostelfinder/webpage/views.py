@@ -28,7 +28,7 @@ def haversine(hostel,latitude,longitude):
     # e = math.sqrt((diff_latitude*diff_latitude) + (diff_longitude*diff_longitude))
     # print(f'{hav}-{hostel.location.street}-{hostel.hostel_name}')
 
-def near_hostel(student_institute):
+def near_hostel(student_institute,similar_hostels):
     file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
     json_file = open(file)
     results = json.load(json_file)
@@ -45,7 +45,7 @@ def near_hostel(student_institute):
     longitude=location['lng']
     near_hostel = []
 
-    for hostel in Hostel.objects.all():
+    for hostel in similar_hostels:
         e = haversine(hostel, latitude, longitude)
         if e < 1000:
             near_hostel.append([hostel,e])
@@ -613,13 +613,17 @@ def user_student(request,user_id):
             hostel_type = 'B'
         else:
             hostel_type = 'G'
+
         if Rating.objects.filter(user_id=user_id,hostel__hostel_type=hostel_type).exists() :
-            args['similar_hostels'] = similar_hostel(user_id)
+            similar_hostels = []
+            similar_hostels = similar_hostel(user_id)
+            args['similar_hostels'] = similar_hostels
 
         # for near hostels
         student_institute = Student.objects.get(user_id=user_id).institute
-        if near_hostel(student_institute):
-            args['near_hostels']=near_hostel(student_institute)
+        if near_hostel(student_institute,similar_hostels):
+            args['near_hostels']=near_hostel(student_institute,similar_hostels)
+            args['student_institute'] = student_institute
 
         return render(request, 'webpage/home_page.html',args)
     else:
