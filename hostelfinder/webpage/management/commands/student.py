@@ -18,28 +18,28 @@ class Command(BaseCommand):
             next(user_csv_reader)
             for line in user_csv_reader:
 
-                student_name = line[2].split();
+                student_name = line[1].split();
                 first_name = student_name[0]
                 last_name = student_name[len(student_name) - 1]
 
                 user = User.objects.create(
                       first_name = first_name,
                       last_name = last_name,
-                      user_name = str(line[2]),
+                      user_name = str(line[1]),
                       password = 'qwertyuiop',
-                      email = line[1],
+                      email = line[0],
                       contact = None,
                       user_type = 'S'
                 )
                 print(user)
-                if 'Male' in line[3]:
+                if 'Male' in line[2]:
                     gender = 'M'
                 else:
                     gender = 'F'
 
                 student = Student.objects.create(
                     user = user,
-                    institute = line[4],
+                    institute = line[3],
                     gender = gender,
                     date_of_birth = None
                 )

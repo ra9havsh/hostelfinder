@@ -196,7 +196,7 @@ def similar_hostel(user_id):
     # for h in hostel:
     #     print(h)
 
-    return hostel[:12]
+    return hostel[:9]
 
 def log_in_session(request):
     if 'user_id' in request.session:
