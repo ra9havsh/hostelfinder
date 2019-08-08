@@ -11,7 +11,7 @@ class User(models.Model):
     user_name =  models.CharField(max_length=250)
     password =  models.CharField(max_length=250)
     email =  models.EmailField(max_length=250,null=True,blank=True)
-    contact =  models.CharField(max_length=250)
+    contact =  models.CharField(max_length=250,null=True,blank=True)
     user_type =  models.CharField(max_length=20, choices=USER_TYPE_CHOICE)
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     institute =  models.CharField(max_length=250)
     gender =  models.CharField(max_length=25, choices= GENDER_CHOICE)
-    date_of_birth =  models.DateField()
+    date_of_birth =  models.DateField(null=True,blank=True)
 
     def __str__(self):
         return str(self.user)
