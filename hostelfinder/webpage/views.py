@@ -74,7 +74,7 @@ def evaluate_cosine_similarity(user,similar_user):
     user_square_sum = 0
     similar_user_square_sum = 0
 
-    for i in range(len(user)-1):
+    for i in range(len(user)):
         numerator = numerator + (user[i]*similar_user[i])
         user_square_sum = user_square_sum + (user[i]*user[i])
         similar_user_square_sum = similar_user_square_sum + (user[i]*user[i])
