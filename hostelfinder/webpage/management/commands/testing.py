@@ -77,80 +77,67 @@ def similar_hostel(user_id):
         for h in Rating.objects.filter(user_id=s.user_id,hostel__hostel_type='B'):
             similar_user_rated_hostels.append(h.hostel_id)
 
-    # removing duplicates
-    similar_rating_user_id = list(dict.fromkeys(similar_rating_user_id))
-    similar_user_rated_hostels = list(dict.fromkeys(similar_user_rated_hostels))
-    similar_rating_user_id.sort()
-    similar_user_rated_hostels.sort()
+    predictate_similar_hostel = []
 
-    #create user-item matrix for both active user and similar users
-    similar_user =  [[0] * len(similar_user_rated_hostels) for i in range(len(similar_rating_user_id))]
-    user = []
+    if similar_user_rated_hostels and similar_rating_user_id:
+        # removing duplicates
+        similar_rating_user_id = list(dict.fromkeys(similar_rating_user_id))
+        similar_user_rated_hostels = list(dict.fromkeys(similar_user_rated_hostels))
+        similar_rating_user_id.sort()
+        similar_user_rated_hostels.sort()
 
-    for i,similar_user_id in enumerate(similar_rating_user_id):
-        for j,hostel_id in enumerate(similar_user_rated_hostels):
-            if Rating.objects.filter(user_id=similar_user_id,hostel_id=hostel_id).exists():
-                r = Rating.objects.values('rating').get(user_id=similar_user_id,hostel_id=hostel_id)
+        # create user-item matrix for both active user and similar users
+        similar_user = [[0] * len(similar_user_rated_hostels) for i in range(len(similar_rating_user_id))]
+        user = []
+
+        for i, similar_user_id in enumerate(similar_rating_user_id):
+            for j, hostel_id in enumerate(similar_user_rated_hostels):
+                if Rating.objects.filter(user_id=similar_user_id, hostel_id=hostel_id).exists():
+                    r = Rating.objects.values('rating').get(user_id=similar_user_id, hostel_id=hostel_id)
+                    rate = r['rating']
+                else:
+                    rate = 0
+                similar_user[i][j] = rate
+
+        # for i, similar_user_id in enumerate(similar_rating_user_id):
+        #     for j, hostel_id in enumerate(similar_user_rated_hostels):
+        #         print(str(similar_user_id) + '-' + str(hostel_id) + "=" + str(similar_user[i][j]))
+        #     print()
+
+        for j in similar_user_rated_hostels:
+            if Rating.objects.filter(user_id=user_id, hostel_id=j).exists():
+                r = Rating.objects.values('rating').get(user_id=user_id, hostel_id=j)
                 rate = r['rating']
             else:
-               rate = 0
-            similar_user[i][j] = rate
+                rate = 0
+            user.append(rate)
 
+        # print(user)
 
-    for i, similar_user_id in enumerate(similar_rating_user_id):
-        for j, hostel_id in enumerate(similar_user_rated_hostels):
-            print(str(similar_user_id)+'-'+str(hostel_id)+"="+str(similar_user[i][j]))
-        print()
+        # calculating similarity through cosine similarity
+        cosine_similarity = []
 
-    for j in similar_user_rated_hostels:
-        if Rating.objects.filter(user_id=user_id, hostel_id=j).exists():
-            r = Rating.objects.values('rating').get(user_id=user_id, hostel_id=j)
-            rate = r['rating']
-        else:
-            rate = 0
-        user.append(rate)
+        # print("cosine similarity:")
+        for i in range(len(similar_rating_user_id)):
+            similarity = evaluate_cosine_similarity(user, similar_user[i])
+            cosine_similarity.append(similarity)
+            # print(str(similar_rating_user_id[i]) + '-' + str(round(similarity, 3)))
 
-    print(user)
+        if cosine_similarity:
+            # predicting the rating for the each item of active user
+            predictate_rating = predict_user_item_rating(user, similar_user, cosine_similarity)
 
-    #calculating similarity through cosine similarity
-    cosine_similarity = []
+            # print("predictate rating:")
+            # for i in range(len(similar_user_rated_hostels)):
+            #     print((str(similar_user_rated_hostels[i]) + '-' + str(round(predictate_rating[i], 2))))
 
+            # now finding the top predictate hostel rating
 
-    print("cosine similarity:")
-    for i in range(len(similar_rating_user_id)):
-        similarity = evaluate_cosine_similarity(user,similar_user[i])
-        cosine_similarity.append(similarity)
-        print(str(similar_rating_user_id[i])+'-'+str(round(similarity,3)))
+            for j, hostel_id in enumerate(similar_user_rated_hostels):
+                predictate_similar_hostel.append((hostel_id, predictate_rating[j]))
+            predictate_similar_hostel.sort(key=lambda x: x[1], reverse=True)
 
-    hostel = []
-
-    if cosine_similarity:
-        #predicting the rating for the each item of active user
-        predictate_rating = predict_user_item_rating(user,similar_user,cosine_similarity)
-
-        print("predictate rating:")
-        for i in range(len(similar_user_rated_hostels)):
-            print((str(similar_user_rated_hostels[i])+'-'+str(round(predictate_rating[i],2))))
-
-        #now finding the top predictate hostel rating
-        predictate_similar_hostel = []
-        hostels = []
-        for j, hostel_id in enumerate(similar_user_rated_hostels):
-            predictate_similar_hostel.append((hostel_id,predictate_rating[j]))
-        predictate_similar_hostel.sort(key=lambda x  : x[1],reverse=True)
-
-        print("ranked hostels")
-        for p in predictate_similar_hostel:
-            hostels.append(p[0])
-            print(p[0])
-
-        for h in hostels:
-            hostel.append( Hostel.objects.get(id=h))
-
-    # for h in hostel:
-    #     print(h)
-
-    return hostel
+    return predictate_similar_hostel
 
 class Command(BaseCommand):
 
@@ -162,13 +149,40 @@ class Command(BaseCommand):
 
         with open(f'{test_data}.csv','r') as file:
             test_data_reader = csv.reader(file)
-            next(test_data_reader)
+            header=next(test_data_reader)
 
-            line=next(test_data_reader)
+            hostels =[]
+            users = []
 
-            print(line[0])
+            for h in header:
+                if h != 'rating':
+                    hostel_id=int(h)
+                    hostels.append(hostel_id)
 
-            similar=similar_hostel(line[0])
 
-            for s in similar:
-                print(s)
+            for line in test_data_reader:
+                user_id=[]
+                users.append(line[0])
+
+            with open('prediction_data.csv', mode='w', newline='') as rate_file:
+                predict_data_writer = csv.writer(rate_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                predict_data_writer.writerow(['rating']+hostels)
+
+                for u in users:
+                    line=[]
+                    prediction=similar_hostel(u)
+                    print(u)
+                    line.append(u)
+
+                    for h in hostels:
+                        for p in prediction:
+                            if h==p[0]:
+                                rate=p[1]
+                                break
+                            else:
+                                rate=0
+                        line.append(round(rate,2))
+
+                    predict_data_writer.writerow(line)
+
+
