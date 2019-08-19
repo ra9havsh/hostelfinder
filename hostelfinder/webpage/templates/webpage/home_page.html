@@ -66,13 +66,13 @@
       <!-- The slideshow -->
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="{% static 'webpage/images/la.jpg' %}" alt="Los Angeles">
+          <img src="{% static 'webpage/images/chicago.jpg' %}" alt="1.jpg">
         </div>
         <div class="carousel-item">
-          <img src="{% static 'webpage/images/chicago.jpg' %}" alt="Chicago">
+          <img src="{% static 'webpage/images/la.jpg' %}" alt="2.jpg">
         </div>
         <div class="carousel-item">
-          <img src="{% static 'webpage/images/ny.jpg' %}" alt="New York">
+          <img src="{% static 'webpage/images/ny.jpg' %}" alt="3.jpg">
         </div>
       </div>
 
@@ -99,7 +99,9 @@
                 <div class="hostel-box-content">
                     <div class="image-box">
                     {% with image=h.image_set.first %}
-                        <img src="{{ image.profile_image.url }}" alt="profile_image">
+                        {% if image.profile_image %}
+                                <img src="{{ image.profile_image.url }}" alt="profile_image">
+                        {% endif %}
                     {% endwith %}
                     </div>
                     <div class="hostel-content">
@@ -141,7 +143,9 @@
                     <div class="hostel-box-content">
                         <div class="image-box">
                         {% with image=h.image_set.first %}
-                            <img src="{{ image.profile_image.url }}" alt="profile_image">
+                            {% if image.profile_image %}
+                                <img src="{{ image.profile_image.url }}" alt="profile_image">
+                            {% endif %}
                         {% endwith %}
                         </div>
                         <div class="hostel-content">
@@ -183,7 +187,9 @@
                     <div class="hostel-box-content">
                         <div class="image-box">
                         {% with image=h.image_set.first %}
-                            <img src="{{ image.profile_image.url }}" alt="profile_image">
+                            {% if image.profile_image %}
+                                <img src="{{ image.profile_image.url }}" alt="profile_image">
+                            {% endif %}
                         {% endwith %}
                         </div>
                         <div class="hostel-content">

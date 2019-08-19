@@ -24,7 +24,9 @@
                 <div class="hostel-box-content">
                     <div class="image-box">
                     {% with image=h.image_set.first %}
-                        <img src="{{ image.profile_image.url }}" alt="profile_image">
+                        {% if image.profile_image %}
+                                <img src="{{ image.profile_image.url }}" alt="profile_image">
+                        {% endif %}
                     {% endwith %}
                     </div>
                     <div class="hostel-content">

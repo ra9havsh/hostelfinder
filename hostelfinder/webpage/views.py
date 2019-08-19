@@ -60,12 +60,14 @@ def near_hostel(student_institute,similar_hostels):
         return 0
 
 def popular_hostel():
-    rating = Rating.objects.values_list('hostel','avg').order_by('-avg').distinct()[:9]
+    rating = Rating.objects.order_by('-avg').values_list('hostel','avg').distinct()[:9]
     hostel =[]
     for rating in rating:
         hostel.append(int(rating[0]))
 
-    avg_hostel = Hostel.objects.filter(id__in=hostel)
+    avg_hostel =[]
+    for h in hostel:
+        avg_hostel.append(Hostel.objects.get(id=h))
     # print(avg_hostel)
     return avg_hostel
 

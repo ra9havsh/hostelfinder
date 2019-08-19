@@ -74,9 +74,11 @@
     <div class="row">
         <div class="col-sm-12 col-md-4">
             <div class="col-sm-12 row" style="margin: 0 !important; padding:0 !important;">
-                <iframe class="col-sm-7" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6074288719055!2d85.33026931443418!3d27.698525732487727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzU0LjciTiA4NcKwMTknNTYuOSJF!5e0!3m2!1sen!2snp!4v1559390573744!5m2!1sen!2snp" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <iframe class="col-sm-7" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{hostel.latitude}},{{hostel.longitude}} (custom heading)&amp;output=embed" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
                 {% with image=hostel.image_set.first %}
-                        <img class="col-sm-5 profile-img-box" src="{{ image.hostel_image.url }}" alt="profile image">
+                    {% if image.profile_image %}
+                        <img class="col-sm-5 profile-img-box" src="{{ image.profile_image.url }}" alt="profile image">
+                    {% endif %}
                 {% endwith %}
                 <div class="hotel-rating" style="position:absolute; bottom:10px; right:10px;">
                     {% with rating=hostel.rating_set.first %}
@@ -173,7 +175,7 @@
                         <div class="text-block">
                             <p>Hostel</p>
                         </div>
-                        <img src="{% if image.hostel_image %}{{ image.hostel_image.url }}{% endif %}" alt="Hostel">
+                        <img src="{% if image.profile_image %}{{ image.profile_image.url }}{% endif %}" alt="Hostel">
                     </div>
                     <div class="carousel-item">
                         <div class="text-block">

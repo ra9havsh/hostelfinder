@@ -5,20 +5,20 @@ import random
 
 college = []
 
-def evaluate_rma(predict_data,test_data):
+def evaluate_mae(predict_data,test_data):
     sum=0
     if len(predict_data)==len(test_data):
         for p in range(len(predict_data)):
-            sum=sum+(float(predict_data[p])-float(test_data[p]))
+            sum=sum+abs((float(predict_data[p])-float(test_data[p])))
         rma = sum/len(predict_data)
-    return abs(round(rma,2))
+    return round(rma,2)
 
-def evaluate_average(test_data):
-    sum = 0
-    for t in range(len(test_data)):
-        sum = sum + float(test_data[t])
-    avg = sum / len(test_data)
-    return round(avg,2)
+# def evaluate_average(test_data):
+#     sum = 0
+#     for t in range(len(test_data)):
+#         sum = sum + float(test_data[t])
+#     avg = sum / len(test_data)
+#     return round(avg,2)
 
 class Command(BaseCommand):
 
@@ -53,10 +53,10 @@ class Command(BaseCommand):
                 for r in range(len(rate) - 1):
                     test_data_values.append(rate[r + 1])
 
-        rma = evaluate_rma(predict_data_values,test_data_values)
-        print('rma = '+str(rma))
+        mae = evaluate_mae(predict_data_values,test_data_values)
+        print('mae = '+str(mae))
 
-        avg = evaluate_average(test_data_values)
-        percent = (rma/avg)*100
+        # avg = evaluate_average(test_data_values)
+        percent = mae*100
 
         print("error percentage = " + str(percent))
