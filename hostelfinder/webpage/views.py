@@ -29,17 +29,18 @@ def haversine(hostel,latitude,longitude):
     # print(f'{hav}-{hostel.location.street}-{hostel.hostel_name}')
 
 def near_hostel(student_institute,similar_hostels):
-    file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
-    json_file = open(file)
-    results = json.load(json_file)
-    json_file.close()
+    # file = os.path.join(settings.BASE_DIR, 'webpage/static/webpage/location.json')
+    # json_file = open(file)
+    # results = json.load(json_file)
+    # json_file.close()
 
-    # #get json response from google geocoder api using url
-    # url = 'https://maps.googleapis.com/maps/api/geocode/json'
-    # institute = student_institute + ', Kathmandu'
-    # params = {'sensor': 'false', 'address': institute,'key':'AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY'}
-    # r = requests.get(url, params=params)
-    # results = r.json()
+    #get json response from google geocoder api using url
+    url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    institute = student_institute + ', Kathmandu'
+    params = {'sensor': 'false', 'address': institute,'key':'AIzaSyDJ5YrHe6GorQ8BVPtT_gsmTM6ElhZwEHY'}
+    r = requests.get(url, params=params)
+    results = r.json()
+    
     location  = results['results'][0]['geometry']['location']
     latitude=location['lat']
     longitude=location['lng']
